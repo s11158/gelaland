@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>GelaLand - управление сайтом</title>
+<style>
+:root{--bg:#f6f4ef;--ink:#22201c;--muted:#6b6660;--line:#dcd6cb;--green:#2f5d3a;--red:#b33;--soft:#ece7dd}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.5}
+.wrap{max-width:980px;margin:0 auto;padding:20px}
+h1{font-size:1.5rem;margin:0 0 4px}h2{font-size:1.2rem;margin:26px 0 10px;padding-top:18px;border-top:1px solid var(--line)}h3{font-size:1rem;margin:14px 0 6px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+label{display:block;font-size:.82rem;color:var(--muted);margin:8px 0 3px}
+input,textarea,select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font:inherit;background:#fff}
+textarea{min-height:80px;resize:vertical}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.btn{display:inline-block;background:var(--green);color:#fff;border:0;padding:10px 16px;border-radius:999px;font:inherit;font-weight:600;cursor:pointer}
+.btn.sm{padding:5px 11px;font-size:.82rem;font-weight:500}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.btn.red{background:var(--red)}
+.top{position:sticky;top:0;background:var(--bg);padding:12px 0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);margin-bottom:12px}
+.hint{font-size:.82rem;color:var(--muted)}
+.tag{display:inline-block;background:var(--soft);padding:3px 9px;border-radius:999px;font-size:.82rem;margin:3px 4px 0 0}
+.tag b{cursor:pointer;margin-left:6px;color:var(--red)}
+.status{font-size:.9rem;font-weight:600}
+.ok{color:var(--green)}.err{color:var(--red)}
+table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left}
+td input{padding:5px 8px}
+.photos{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.photos div{position:relative}
+.photos img{width:90px;height:68px;object-fit:cover;border-radius:6px;display:block}
+.photos b{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;border-radius:50%;width:18px;height:18px;font-size:12px;text-align:center;line-height:18px;cursor:pointer}
+.photos span{position:absolute;bottom:0;left:0;background:rgba(0,0,0,.5);color:#fff;font-size:10px;padding:1px 4px;border-radius:0 4px 0 6px;cursor:pointer}
+details summary{cursor:pointer;font-weight:600;padding:6px 0}
+#login{max-width:520px}
+.calmini{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:6px}
+.calmini div{text-align:center;padding:5px 0;border-radius:6px;font-size:.82rem;cursor:pointer;border:1px solid transparent}
+.calmini div:hover{border-color:var(--green)}
+.calmini .closed{background:#f3d3cc;text-decoration:line-through}
+.calmini .ical{background:#e6dcd6;color:#9a7a6c;cursor:default}
+.calmini .ovr{outline:2px solid #d9a441}
+.calmini .pad{visibility:hidden}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top"><div><h1>GelaLand - управление</h1><div class="hint">Меняете поля, нажимаете “Сохранить на сайт”. Через 1-2 минуты изменения появятся на сайте.</div></div><div><span class="status" id="status"></span> <button class="btn" id="saveBtn" onclick="save()" style="display:none">Сохранить на сайт</button></div></div>
+
+<div class="card" id="login">
+  <h3>Вход</h3>
+  <p class="hint">Вставьте ключ доступа (его выдал Стас). Ключ сохранится в этом браузере, повторно вводить не нужно.</p>
+  <input id="token" placeholder="github_pat_..." type="password">
+  <div style="margin-top:10px"><button class="btn" onclick="login()">Войти</button></div>
+</div>
+
+<div id="app" style="display:none">
+
+<h2>Дома: цены и даты</h2>
+<p class="hint">Цена за ночь. “Будни” - ночи с воскресенья по четверг, “выходные” - ночи пятницы и субботы. Сезон перекрывает базовую цену на свои даты. Отдельная цена на конкретную дату перекрывает всё. Занятые даты: нажмите на день в календаре, чтобы закрыть или открыть его. Даты из RealtyCalendar подтягиваются автоматически и помечены серым.</p>
+<div id="houses"></div>
+<button class="btn ghost" onclick="addHouse()">+ Добавить дом</button>
+
+<h2>Аренда всей территории</h2>
+<div class="card" id="whole"></div>
+
+<h2>Дополнительные услуги</h2>
+<div class="card"><table id="services"><thead><tr><th>Услуга</th><th style="width:170px">Цена (текст)</th><th></th></tr></thead><tbody></tbody></table><button class="btn sm ghost" style="margin-top:8px" onclick="C.services.push({name:'',price:''});draw()">+ Услуга</button></div>
+
+<h2>Отзывы гостей</h2>
+<div id="reviews"></div>
+<button class="btn ghost" onclick="C.reviews.push({author:'',source:'Яндекс',date:'',text:'',photo:''});draw()">+ Отзыв</button>
+
+<h2>Тексты</h2>
+<div class="card" id="texts"></div>
+
+<h2>Контакты и настройки</h2>
+<div class="card" id="site"></div>
+
+<details class="card"><summary>Для продвинутых: весь контент как JSON</summary><textarea id="raw" style="min-height:300px;font-family:monospace;font-size:.8rem"></textarea><button class="btn sm ghost" style="margin-top:8px" onclick="try{C=JSON.parse($('#raw').value);draw();msg('JSON применён','ok')}catch(e){msg('Ошибка в JSON: '+e.message,'err')}">Применить JSON</button></details>
+</div>
+</div>
+
+<script>
+const OWNER='s11158', REPO='gelaland', BRANCH='main', FILE='data/content.json';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let C, SHA, B={}, TOKEN=localStorage.getItem('gl_token')||'';
+const api=(p,o={})=>fetch('https://api.github.com/repos/'+OWNER+'/'+REPO+p,{...o,headers:{Authorization:'Bearer '+TOKEN,Accept:'application/vnd.github+json',...(o.headers||{})}});
+function msg(t,c){$('#status').textContent=t;$('#status').className='status '+(c||'');}
+const b64=s=>btoa(unescape(encodeURIComponent(s)));
+const unb64=s=>decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
+
+async function login(){ TOKEN=$('#token').value.trim()||TOKEN; if(!TOKEN) return; localStorage.setItem('gl_token',TOKEN); load(); }
+async function load(){
+  msg('Загружаю...');
+  const r=await api('/contents/'+FILE+'?ref='+BRANCH);
+  if(!r.ok){ msg('Ключ не подошёл ('+r.status+')','err'); localStorage.removeItem('gl_token'); return; }
+  const j=await r.json(); SHA=j.sha; C=JSON.parse(unb64(j.content));
+  try{ B=await fetch('data/bookings.json?v='+Date.now()).then(r=>r.ok?r.json():{}); B=B.houses||B; }catch(e){}
+  $('#login').style.display='none'; $('#app').style.display=''; $('#saveBtn').style.display=''; draw(); msg('');
+}
+async function save(){
+  collect(); msg('Сохраняю...'); $('#saveBtn').disabled=true;
+  const r=await api('/contents/'+FILE,{method:'PUT',body:JSON.stringify({message:'Обновление контента из админки',content:b64(JSON.stringify(C,null,2)),sha:SHA,branch:BRANCH})});
+  $('#saveBtn').disabled=false;
+  if(r.ok){ SHA=(await r.json()).content.sha; msg('Сохранено. Сайт обновится через 1-2 минуты.','ok'); }
+  else if(r.status===409){ msg('Кто-то сохранил раньше. Перезагрузите страницу и повторите.','err'); }
+  else msg('Ошибка сохранения: '+r.status,'err');
+}
+async function uploadPhoto(file,cb){
+  const name=('p'+Date.now()+'_'+file.name).replace(/[^a-zA-Z0-9._-]/g,'');
+  msg('Загружаю фото...');
+  const data=await new Promise(res=>{const fr=new FileReader();fr.onload=()=>res(fr.result.split(',')[1]);fr.readAsDataURL(file);});
+  const r=await api('/contents/img/'+name,{method:'PUT',body:JSON.stringify({message:'Фото '+name,content:data,branch:BRANCH})});
+  if(r.ok){ msg('Фото загружено. Не забудьте “Сохранить на сайт”.','ok'); cb(name); } else msg('Ошибка загрузки фото: '+r.status,'err');
+}
+function pickPhoto(cb){ const i=document.createElement('input'); i.type='file'; i.accept='image/*'; i.onchange=()=>{ if(i.files[0]){ if(i.files[0].size>4e6){msg('Фото больше 4 МБ, уменьшите его','err');return;} uploadPhoto(i.files[0],cb);} }; i.click(); }
+
+// ------- drawing -------
+const inp=(path,label,val,type='text',ph='')=>`<div><label>${label}</label><input data-p="${path}" type="${type}" value="${esc(val)}" placeholder="${esc(ph)}"></div>`;
+const ta=(path,label,val)=>`<div><label>${label}</label><textarea data-p="${path}">${esc(val)}</textarea></div>`;
+
+function draw(){
+  collectSilent();
+  $('#houses').innerHTML=C.houses.map((h,i)=>`<div class="card" id="house-${i}">
+    <div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><h3 style="margin:0">${esc(h.name||'Новый дом')} <span class="hint">${h.active===false?'(скрыт с сайта)':''}</span></h3><div><button class="btn sm ghost" onclick="mvHouse(${i},-1)">▲</button> <button class="btn sm ghost" onclick="mvHouse(${i},1)">▼</button> <button class="btn sm red" onclick="if(confirm('Удалить дом “${esc(h.name)}”?')){C.houses.splice(${i},1);draw()}">Удалить</button></div></div>
+    <div class="row">${inp(`houses.${i}.name`,'Название',h.name)}${inp(`houses.${i}.type`,'Тип (Большой дом / Маленький дом)',h.type)}${inp(`houses.${i}.capacity`,'Гостей максимум',h.capacity,'number')}${inp(`houses.${i}.beds`,'Кровати',h.beds)}
+    <div><label>Показывать на сайте</label><select data-p="houses.${i}.active"><option value="true" ${h.active!==false?'selected':''}>Да</option><option value="false" ${h.active===false?'selected':''}>Нет</option></select></div></div>
+    <h3>Базовая цена за ночь</h3>
+    <div class="row">${inp(`houses.${i}.price.weekday`,'Будни (вс-чт)',h.price.weekday,'number')}${inp(`houses.${i}.price.weekend`,'Выходные (пт, сб)',h.price.weekend,'number')}</div>
+    <h3>Сезоны <span class="hint">(своя цена на период)</span></h3>
+    <table><thead><tr><th>Название</th><th>С</th><th>По</th><th>Будни</th><th>Выходные</th><th></th></tr></thead><tbody>
+    ${(h.seasons||[]).map((s,k)=>`<tr><td><input data-p="houses.${i}.seasons.${k}.name" value="${esc(s.name)}"></td><td><input type="date" data-p="houses.${i}.seasons.${k}.from" value="${s.from}"></td><td><input type="date" data-p="houses.${i}.seasons.${k}.to" value="${s.to}"></td><td><input type="number" data-p="houses.${i}.seasons.${k}.weekday" value="${s.weekday}"></td><td><input type="number" data-p="houses.${i}.seasons.${k}.weekend" value="${s.weekend}"></td><td><button class="btn sm red" onclick="C.houses[${i}].seasons.splice(${k},1);draw()">×</button></td></tr>`).join('')}
+    </tbody></table><button class="btn sm ghost" style="margin-top:6px" onclick="C.houses[${i}].seasons.push({name:'',from:'',to:'',weekday:C.houses[${i}].price.weekday,weekend:C.houses[${i}].price.weekend});draw()">+ Сезон</button>
+    <h3>Календарь: занятые даты и цена на конкретный день</h3>
+    <div class="hint">Клик по дню - закрыть/открыть дату. Клик с зажатым Shift - задать свою цену на этот день (жёлтая рамка). Серые даты пришли из RealtyCalendar, их тут не меняют.</div>
+    <div style="display:flex;gap:8px;align-items:center;margin-top:8px"><button class="btn sm ghost" onclick="calMv(${i},-1)">‹</button><b id="calT-${i}"></b><button class="btn sm ghost" onclick="calMv(${i},1)">›</button></div>
+    <div class="calmini" id="cal-${i}"></div>
+    <div id="ovrs-${i}" style="margin-top:6px"></div>
+    <details style="margin-top:10px"><summary>Описание, удобства, фото</summary>
+      ${ta(`houses.${i}.short`,'Коротко (на карточке)',h.short)}${ta(`houses.${i}.description`,'Подробное описание',h.description)}
+      ${ta(`houses.${i}.amenities`,'Удобства, через запятую',(h.amenities||[]).join(', '))}
+      ${inp(`houses.${i}.icalUrl`,'Ссылка iCal из RealtyCalendar для этого дома (синхронизация занятых дат)',h.icalUrl||'','url','https://realtycalendar.ru/...ics')}
+      <label>Фото (первое - обложка; нажмите “в начало”, чтобы сделать обложкой)</label>
+      <div class="photos">${(h.photos||[]).map((p,k)=>`<div><img src="img/${p}"><b onclick="C.houses[${i}].photos.splice(${k},1);draw()">×</b>${k?`<span onclick="const a=C.houses[${i}].photos;a.unshift(a.splice(${k},1)[0]);draw()">в начало</span>`:''}</div>`).join('')}</div>
+      <button class="btn sm ghost" style="margin-top:8px" onclick="pickPhoto(n=>{C.houses[${i}].photos.push(n);draw()})">+ Загрузить фото</button>
+    </details>
+  </div>`).join('');
+  C.houses.forEach((h,i)=>{ calState[i]=calState[i]||new Date(); drawMini(i); });
+
+  const w=C.wholeRental;
+  $('#whole').innerHTML=`<div class="row">${inp('wholeRental.title','Заголовок',w.title)}${inp('wholeRental.priceFrom','Цена от, за ночь',w.priceFrom,'number')}</div>${ta('wholeRental.text','Текст',w.text)}`;
+
+  $('#services tbody').innerHTML=C.services.map((s,i)=>`<tr><td><input data-p="services.${i}.name" value="${esc(s.name)}"></td><td><input data-p="services.${i}.price" value="${esc(s.price)}" placeholder="500 руб / бесплатно / по запросу"></td><td><button class="btn sm red" onclick="C.services.splice(${i},1);draw()">×</button></td></tr>`).join('');
+
+  $('#reviews').innerHTML=C.reviews.map((r,i)=>`<div class="card"><div class="row">${inp(`reviews.${i}.author`,'Имя гостя',r.author)}${inp(`reviews.${i}.source`,'Откуда (Яндекс, Суточно...)',r.source)}${inp(`reviews.${i}.date`,'Дата (например 2026-07)',r.date)}</div>${ta(`reviews.${i}.text`,'Текст отзыва',r.text)}
+    <div style="display:flex;gap:10px;align-items:center;margin-top:8px">${r.photo?`<img src="img/${r.photo}" style="height:60px;border-radius:6px">`:''}<button class="btn sm ghost" onclick="pickPhoto(n=>{C.reviews[${i}].photo=n;draw()})">${r.photo?'Заменить фото':'+ Фото к отзыву'}</button>${r.photo?`<button class="btn sm ghost" onclick="C.reviews[${i}].photo='';draw()">Убрать фото</button>`:''}<button class="btn sm red" onclick="C.reviews.splice(${i},1);draw()">Удалить отзыв</button></div></div>`).join('');
+
+  $('#texts').innerHTML=`${inp('site.tagline','Главный заголовок на первом экране',C.site.tagline)}${ta('site.intro','Текст под заголовком',C.site.intro)}
+    ${inp('about.title','Заголовок “О месте”',C.about.title)}${ta('about.paragraphs','Текст “О месте” (каждый абзац с новой строки)',C.about.paragraphs.join('\n'))}
+    ${ta('around.items','“Что вокруг”: по одному пункту на строку в формате Заголовок | Текст',C.around.items.map(x=>x.title+' | '+x.text).join('\n'))}
+    ${inp('fishing.title','Заголовок “Рыбалка”',C.fishing.title)}${ta('fishing.text','Текст про рыбалку',C.fishing.text)}
+    ${inp('accessibility.title','Заголовок про доступность',C.accessibility.title)}${ta('accessibility.text','Текст про доступность',C.accessibility.text)}
+    ${inp('events.title','Заголовок “Мероприятия”',C.events.title)}${ta('events.text','Текст про мероприятия',C.events.text)}`;
+
+  const s=C.site;
+  $('#site').innerHTML=`<div class="row">${inp('site.phone','Телефон (формат +7...)',s.phone)}${inp('site.whatsapp','WhatsApp (только цифры)',s.whatsapp)}${inp('site.telegram','Telegram (имя без @, можно пусто)',s.telegram)}${inp('site.instagram','Instagram ссылка',s.instagram)}${inp('site.email','Email',s.email)}${inp('site.checkIn','Заезд',s.checkIn)}${inp('site.checkOut','Выезд',s.checkOut)}${inp('site.minNights','Минимум ночей',s.minNights,'number')}</div>
+    ${inp('site.address','Адрес',s.address)}${inp('site.mapUrl','Ссылка на встраиваемую Яндекс-карту (Конструктор карт, вариант “iframe”, только адрес src)',s.mapUrl)}`;
+
+  $('#raw').value=JSON.stringify(C,null,2);
+}
+function mvHouse(i,k){ const j=i+k; if(j<0||j>=C.houses.length) return; [C.houses[i],C.houses[j]]=[C.houses[j],C.houses[i]]; draw(); }
+
+// mini calendars
+const calState={};
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+function calMv(i,k){ calState[i].setMonth(calState[i].getMonth()+k); drawMini(i); }
+function drawMini(i){
+  const h=C.houses[i], v=calState[i], y=v.getFullYear(), m=v.getMonth();
+  $('#calT-'+i).textContent=['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'][m]+' '+y;
+  const off=(new Date(y,m,1).getDay()+6)%7, days=new Date(y,m+1,0).getDate();
+  let html=['пн','вт','ср','чт','пт','сб','вс'].map(x=>'<div style="color:#999;cursor:default">'+x+'</div>').join('');
+  for(let k=0;k<off;k++) html+='<div class="pad"></div>';
+  for(let d=1;d<=days;d++){ const ds=iso(new Date(y,m,d)); const ic=(B[h.id]||[]).includes(ds), cl=(h.closed||[]).includes(ds), ov=h.overrides&&h.overrides[ds];
+    html+=`<div class="${ic?'ical':cl?'closed':''} ${ov?'ovr':''}" title="${ov?'цена '+ov:''}" onclick="dayClick(event,${i},'${ds}')">${d}</div>`; }
+  $('#cal-'+i).innerHTML=html;
+  const ov=Object.entries(h.overrides||{}).sort();
+  $('#ovrs-'+i).innerHTML=ov.length?'<span class="hint">Особые цены: </span>'+ov.map(([d,p])=>`<span class="tag">${d}: ${p}<b onclick="delete C.houses[${i}].overrides['${d}'];draw()">×</b></span>`).join(''):'';
+}
+function dayClick(e,i,ds){
+  const h=C.houses[i]; if((B[h.id]||[]).includes(ds)) return;
+  if(e.shiftKey){ const p=prompt('Цена за ночь '+ds+' (пусто - убрать особую цену):',h.overrides?.[ds]||''); h.overrides=h.overrides||{}; if(p===null) return; if(p.trim()==='') delete h.overrides[ds]; else h.overrides[ds]=+p; }
+  else { h.closed=h.closed||[]; const k=h.closed.indexOf(ds); k>=0?h.closed.splice(k,1):h.closed.push(ds); h.closed.sort(); }
+  draw();
+}
+
+// collect form values into C
+function setPath(obj,path,val){ const p=path.split('.'); let o=obj; for(let i=0;i<p.length-1;i++){ o=o[p[i]]; } o[p[p.length-1]]=val; }
+function collectSilent(){ try{ collect(); }catch(e){} }
+function collect(){
+  if(!$('#app').innerHTML||!document.querySelector('[data-p]')) return;
+  document.querySelectorAll('[data-p]').forEach(el=>{
+    const p=el.dataset.p; let v=el.value;
+    if(p.endsWith('.amenities')) v=v.split(',').map(x=>x.trim()).filter(Boolean);
+    else if(p==='about.paragraphs') v=v.split('\n').map(x=>x.trim()).filter(Boolean);
+    else if(p==='around.items') v=v.split('\n').map(x=>x.trim()).filter(Boolean).map(l=>{const [t,...r]=l.split('|');return {title:t.trim(),text:r.join('|').trim()}});
+    else if(p.endsWith('.active')) v=v==='true';
+    else if(el.type==='number') v=v===''?'':+v;
+    setPath(C,p,v);
+  });
+}
+function addHouse(){ collect(); C.houses.push({id:'house'+Date.now(),name:'Новый дом',type:'Маленький дом',capacity:4,beds:'',short:'',description:'',amenities:[],photos:[],price:{weekday:5000,weekend:6000},seasons:[],overrides:{},closed:[],icalUrl:'',active:false}); draw(); }
+
+if(TOKEN) load();
+</script>
+</body>
+</html>

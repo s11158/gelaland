@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GelaLand - эко-дома на берегу Волги, Углич</title>
+<meta name="description" content="Четыре деревянных дома на берегу Волги рядом с Угличем: два больших на 6-7 гостей и два маленьких на 4. Мини-ферма, рыбалка, барбекю, тишина. Цены и свободные даты онлайн.">
+<meta property="og:title" content="GelaLand - эко-дома на берегу Волги, Углич">
+<meta property="og:description" content="Деревянные дома с террасами и видом на Волгу. Цены и свободные даты онлайн.">
+<meta property="og:image" content="img/hero.jpg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf7f2;--paper:#fff;--ink:#22201c;--muted:#6b6660;--line:#e6e0d6;--green:#2f5d3a;--green-2:#3f7a4c;--accent:#b5652f;--soft:#f0ebe2;--radius:14px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:16px}
+h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:600;line-height:1.15;margin:0 0 .5em}
+h2{font-size:clamp(1.7rem,3.2vw,2.4rem)}
+h3{font-size:1.35rem}
+p{margin:0 0 1em}
+a{color:var(--green);text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+section{padding:64px 0}
+.muted{color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;padding:13px 22px;border-radius:999px;font-weight:600;border:0;cursor:pointer;font-size:1rem;transition:background .2s}
+.btn:hover{background:var(--green-2)}
+.btn.light{background:#fff;color:var(--green);border:1.5px solid var(--green)}
+.btn.light:hover{background:var(--soft)}
+.btn.wa{background:#25d366}.btn.wa:hover{background:#1ebe5a}
+header{position:sticky;top:0;z-index:50;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:600;color:var(--ink);letter-spacing:.02em}
+nav a{margin-left:22px;color:var(--ink);font-weight:500;font-size:.95rem}
+nav a.phone{color:var(--green)}
+.burger{display:none;background:none;border:0;font-size:1.6rem;cursor:pointer}
+@media(max-width:860px){nav{display:none;position:absolute;top:64px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--line);padding:12px 20px 18px}nav.open{display:flex;flex-direction:column;gap:12px}nav a{margin:0}.burger{display:block}}
+.hero{position:relative;min-height:78vh;display:flex;align-items:flex-end;color:#fff;background:#333 url(img/hero.jpg) center/cover;padding:0}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 30%,rgba(0,0,0,.65))}
+.hero .wrap{position:relative;padding-bottom:64px;padding-top:120px}
+.hero h1{font-size:clamp(2.2rem,5vw,4rem);max-width:760px;margin-bottom:.35em}
+.hero p{font-size:1.15rem;max-width:620px;opacity:.95}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:-40px;position:relative;z-index:2}
+.fact{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 8px 24px rgba(0,0,0,.05)}
+.fact b{display:block;font-size:1.25rem;font-family:'Playfair Display',serif}
+.grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+@media(max-width:800px){.grid2{grid-template-columns:1fr}}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:24px}
+.gallery img{aspect-ratio:4/3;object-fit:cover;border-radius:10px;cursor:pointer;transition:transform .2s}
+.gallery img:hover{transform:scale(1.03)}
+.houses{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+@media(max-width:800px){.houses{grid-template-columns:1fr}}
+.house{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+.house .cover{position:relative;aspect-ratio:16/10;overflow:hidden}
+.house .cover img{width:100%;height:100%;object-fit:cover;transition:opacity .3s}
+.house .cover .tag{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.92);padding:5px 11px;border-radius:999px;font-size:.8rem;font-weight:600}
+.house .cover .dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:6px}
+.house .cover .dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.55)}
+.house .cover .dots i.on{background:#fff}
+.house .cover button{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);border:0;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1.1rem}
+.house .cover .prev{left:10px}.house .cover .next{right:10px}
+.house .body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.house .meta{display:flex;gap:14px;flex-wrap:wrap;font-size:.9rem;color:var(--muted)}
+.house .price{font-size:1.1rem}.house .price b{font-size:1.45rem;font-family:'Playfair Display',serif}
+.amen{display:flex;flex-wrap:wrap;gap:6px}
+.amen span{background:var(--soft);border-radius:999px;padding:4px 10px;font-size:.82rem}
+.house .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:8px}
+.linkbtn{background:none;border:0;color:var(--green);font-weight:600;cursor:pointer;font-size:.95rem;padding:0}
+details.more summary{cursor:pointer;color:var(--green);font-weight:600;list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+details.more p{margin-top:10px;font-size:.95rem}
+/* calendar */
+.cal{border:1px solid var(--line);border-radius:12px;background:#fff;padding:14px}
+.cal .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.cal .head b{font-family:'Playfair Display',serif;font-size:1.05rem}
+.cal .head button{background:var(--soft);border:0;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem}
+.cal .dow,.cal .days{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal .dow span{text-align:center;font-size:.72rem;color:var(--muted);padding:4px 0}
+.cal .d{aspect-ratio:1/1.05;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;border:1px solid transparent;position:relative}
+.cal .d small{font-size:.62rem;color:var(--muted);line-height:1}
+.cal .d:hover{border-color:var(--green)}
+.cal .d.pad{visibility:hidden}
+.cal .d.past{color:#c8c2b8;cursor:default}.cal .d.past:hover{border-color:transparent}
+.cal .d.busy{background:#f3e9e4;color:#b08a7a;cursor:not-allowed;text-decoration:line-through}
+.cal .d.busy small{visibility:hidden}
+.cal .d.we{background:#f6f2ea}
+.cal .d.sel{background:var(--green);color:#fff}.cal .d.sel small{color:#dfeee2}
+.cal .d.in{background:#d9eadd}
+.cal .legend{display:flex;gap:14px;font-size:.78rem;color:var(--muted);margin-top:8px;flex-wrap:wrap}
+.cal .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:4px}
+.calc{margin-top:12px;background:var(--soft);border-radius:10px;padding:12px 14px;font-size:.95rem}
+.calc b{font-size:1.2rem}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(20,18,15,.75);z-index:100;display:none;align-items:center;justify-content:center;padding:16px}
+.modal.open{display:flex}
+.modal .box{background:#fff;border-radius:16px;max-width:1000px;width:100%;max-height:92vh;overflow:auto;padding:26px;position:relative}
+.modal .x{position:absolute;top:10px;right:12px;background:var(--soft);border:0;width:36px;height:36px;border-radius:50%;font-size:1.2rem;cursor:pointer}
+.modal .cols{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+@media(max-width:760px){.modal .cols{grid-template-columns:1fr}}
+.modal .photos{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.modal .photos img{aspect-ratio:4/3;object-fit:cover;border-radius:8px;cursor:pointer}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:200;display:none;align-items:center;justify-content:center}
+.lightbox.open{display:flex}
+.lightbox img{max-width:95vw;max-height:92vh;object-fit:contain}
+.lightbox button{position:absolute;background:rgba(255,255,255,.15);color:#fff;border:0;width:44px;height:44px;border-radius:50%;font-size:1.4rem;cursor:pointer}
+.lightbox .x{top:14px;right:14px}.lightbox .prev{left:14px;top:50%}.lightbox .next{right:14px;top:50%}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.card h3{font-size:1.15rem}
+.list{columns:2;column-gap:32px}
+@media(max-width:640px){.list{columns:1}}
+.list div{break-inside:avoid;display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line)}
+.list div span:last-child{color:var(--muted);white-space:nowrap}
+.review{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.review .who{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.review .av{width:40px;height:40px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600}
+.review .src{font-size:.82rem;color:var(--muted)}
+.review img.ph{border-radius:10px;margin-top:10px;max-height:220px;object-fit:cover;width:100%}
+.band{background:var(--green);color:#fff}
+.band h2,.band a{color:#fff}
+.band .btn{background:#fff;color:var(--green)}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+@media(max-width:760px){.contact{grid-template-columns:1fr}}
+.contact .big{font-size:1.5rem;font-family:'Playfair Display',serif}
+footer{padding:28px 0;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.sticky-cta{position:fixed;bottom:16px;right:16px;z-index:60;display:none}
+@media(max-width:860px){.sticky-cta{display:block}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#">GelaLand</a>
+    <button class="burger" aria-label="Меню" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
+    <nav>
+      <a href="#about">О месте</a>
+      <a href="#houses">Дома и цены</a>
+      <a href="#services">Услуги</a>
+      <a href="#around">Вокруг</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#contacts">Контакты</a>
+      <a class="phone" id="navPhone" href="#">Позвонить</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1 id="heroTitle">Эко-дома на берегу Волги рядом с Угличем</h1>
+    <p id="heroText"></p>
+    <div class="cta">
+      <a class="btn" href="#houses">Смотреть дома и цены</a>
+      <a class="btn wa" id="heroWa" href="#" target="_blank" rel="noopener">Написать в WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="facts">
+    <div class="fact"><b>4 дома</b><span class="muted">два больших и два маленьких</span></div>
+    <div class="fact"><b>2 гектара</b><span class="muted">свой лес и берег Волги</span></div>
+    <div class="fact"><b>Мини-ферма</b><span class="muted">барашки, козочка, конь, собаки</span></div>
+    <div class="fact"><b>Углич рядом</b><span class="muted">несколько минут на машине</span></div>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap">
+    <div class="grid2">
+      <div>
+        <h2 id="aboutTitle"></h2>
+        <div id="aboutText"></div>
+      </div>
+      <img src="img/about1.jpg" alt="Дом на берегу Волги" style="border-radius:var(--radius);aspect-ratio:4/3;object-fit:cover">
+    </div>
+    <div class="gallery" id="aboutGallery"></div>
+  </div>
+</section>
+
+<section id="houses" style="background:var(--soft)">
+  <div class="wrap">
+    <h2>Дома и цены</h2>
+    <p class="muted" style="max-width:720px">Цена за ночь зависит от дня недели и сезона. Выберите дом, отметьте даты заезда и выезда в календаре - сумма посчитается сразу, а занятые даты уже отмечены. Заезд <span id="checkIn"></span>, выезд <span id="checkOut"></span>.</p>
+    <div class="houses" id="houseList"></div>
+    <div class="card" id="wholeRental" style="margin-top:28px;display:grid;grid-template-columns:1fr 1.6fr;gap:22px;align-items:center"></div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <h2>Дополнительные услуги</h2>
+    <p class="muted">Что можно взять или заказать на месте. Цены уточняйте при бронировании.</p>
+    <div class="list" id="serviceList"></div>
+  </div>
+</section>
+
+<section id="around" style="background:var(--soft)">
+  <div class="wrap">
+    <h2 id="aroundTitle"></h2>
+    <div class="cards" id="aroundList"></div>
+    <div class="cards" style="margin-top:18px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+      <div class="card"><h3 id="fishTitle"></h3><p id="fishText" class="muted" style="margin:0"></p></div>
+      <div class="card"><h3 id="accTitle"></h3><p id="accText" class="muted" style="margin:0"></p></div>
+    </div>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="wrap">
+    <h2>Отзывы гостей</h2>
+    <div class="cards" id="reviewList" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"></div>
+  </div>
+</section>
+
+<section class="band" id="events">
+  <div class="wrap grid2">
+    <div><h2 id="eventsTitle"></h2><p id="eventsText" style="opacity:.92;max-width:600px"></p><a class="btn" id="eventsWa" href="#" target="_blank" rel="noopener">Обсудить мероприятие</a></div>
+    <img src="img/events.jpg" alt="" style="border-radius:var(--radius);aspect-ratio:16/10;object-fit:cover">
+  </div>
+</section>
+
+<section id="contacts">
+  <div class="wrap contact">
+    <div>
+      <h2>Контакты</h2>
+      <p class="big"><a id="phoneLink" href="#"></a></p>
+      <p id="address" class="muted"></p>
+      <p>Заезд <span id="checkIn2"></span>, выезд <span id="checkOut2"></span>. Можно с питомцами. Гости с палатками приветствуются.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+        <a class="btn wa" id="waLink" href="#" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn light" id="tgLink" href="#" target="_blank" rel="noopener" style="display:none">Telegram</a>
+        <a class="btn light" id="igLink" href="#" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+    <div id="mapBox"><img src="img/about2.jpg" alt="" style="border-radius:var(--radius);aspect-ratio:4/3;object-fit:cover"></div>
+  </div>
+</section>
+
+<footer><div class="wrap"><span>© <span id="year"></span> GelaLand, Углич</span><a href="admin.html" style="color:var(--muted)">Для владельца</a></div></footer>
+
+<a class="btn wa sticky-cta" id="stickyWa" href="#" target="_blank" rel="noopener">Забронировать</a>
+
+<div class="modal" id="modal"><div class="box"><button class="x" onclick="closeModal()">×</button><div id="modalBody"></div></div></div>
+<div class="lightbox" id="lb"><button class="x" onclick="lbClose()">×</button><button class="prev" onclick="lbStep(-1)">‹</button><img id="lbImg" alt=""><button class="next" onclick="lbStep(1)">›</button></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=n=>Number(n).toLocaleString('ru-RU');
+let C, B={}, LB=[], lbi=0;
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const today=iso(new Date());
+
+// price of one night starting on date (YYYY-MM-DD)
+function nightPrice(h,ds){
+  if(h.overrides&&h.overrides[ds]) return +h.overrides[ds];
+  const d=new Date(ds+'T12:00:00'); const we=(C.site.weekendNights||[5,6]).includes(d.getDay());
+  for(const s of h.seasons||[]){ if(ds>=s.from&&ds<=s.to) return +(we?s.weekend:s.weekday)||+(s.weekday); }
+  return +(we?h.price.weekend:h.price.weekday)||+h.price.weekday;
+}
+function isBusy(h,ds){ return (h.closed||[]).includes(ds)||(B[h.id]||[]).includes(ds); }
+function minPrice(h){ return Math.min(+h.price.weekday,+h.price.weekend||1e9); }
+
+function waUrl(text){ return 'https://wa.me/'+C.site.whatsapp+'?text='+encodeURIComponent(text); }
+
+function render(){
+  const s=C.site;
+  document.title=s.name+' - '+s.tagline;
+  $('#heroTitle').textContent=s.tagline; $('#heroText').textContent=s.intro;
+  const wa=waUrl('Здравствуйте! Хочу узнать про отдых в GelaLand.');
+  ['#heroWa','#waLink','#stickyWa'].forEach(i=>$(i).href=wa);
+  $('#eventsWa').href=waUrl('Здравствуйте! Хочу обсудить проведение мероприятия в GelaLand.');
+  $('#navPhone').href='tel:'+s.phone; $('#navPhone').textContent=s.phone.replace(/^\+7(\d{3})(\d{3})(\d{2})(\d{2})$/,'+7 $1 $2-$3-$4');
+  $('#phoneLink').href='tel:'+s.phone; $('#phoneLink').textContent=$('#navPhone').textContent;
+  $('#address').textContent=s.address;
+  if(s.telegram){$('#tgLink').style.display='';$('#tgLink').href='https://t.me/'+s.telegram.replace('@','');}
+  if(s.instagram) $('#igLink').href=s.instagram; else $('#igLink').style.display='none';
+  if(s.mapUrl) $('#mapBox').innerHTML='<iframe src="'+esc(s.mapUrl)+'" style="width:100%;aspect-ratio:4/3;border:0;border-radius:14px" loading="lazy"></iframe>';
+  ['#checkIn','#checkIn2'].forEach(i=>$(i).textContent=s.checkIn); ['#checkOut','#checkOut2'].forEach(i=>$(i).textContent=s.checkOut);
+  $('#year').textContent=new Date().getFullYear();
+
+  $('#aboutTitle').textContent=C.about.title;
+  $('#aboutText').innerHTML=C.about.paragraphs.map(p=>'<p>'+esc(p)+'</p>').join('');
+  LB=C.about.gallery.map(f=>'img/'+f);
+  $('#aboutGallery').innerHTML=C.about.gallery.map((f,i)=>'<img src="img/'+f+'" loading="lazy" alt="" onclick="lbOpen(ABOUT,'+i+')">').join('');
+  window.ABOUT=LB.slice();
+
+  $('#houseList').innerHTML=C.houses.filter(h=>h.active!==false).map(h=>`
+    <div class="house" id="h-${h.id}">
+      <div class="cover"><img src="img/${h.photos[0]}" alt="${esc(h.name)}" data-i="0"><span class="tag">${esc(h.type)}</span>
+        ${h.photos.length>1?`<button class="prev" onclick="slide('${h.id}',-1)">‹</button><button class="next" onclick="slide('${h.id}',1)">›</button><div class="dots">${h.photos.map((_,i)=>'<i class="'+(i?'':'on')+'"></i>').join('')}</div>`:''}</div>
+      <div class="body">
+        <h3>${esc(h.name)}</h3>
+        <div class="meta"><span>👥 до ${h.capacity} гостей</span><span>🛏 ${esc(h.beds)}</span></div>
+        <p style="margin:0">${esc(h.short)}</p>
+        <div class="amen">${(h.amenities||[]).map(a=>'<span>'+esc(a)+'</span>').join('')}</div>
+        <div class="price">от <b>${fmt(minPrice(h))}</b> ${esc(C.site.currency)} за ночь <span class="muted" style="font-size:.85rem">· будни ${fmt(h.price.weekday)}, выходные ${fmt(h.price.weekend||h.price.weekday)}</span></div>
+        <div class="actions"><button class="btn" onclick="openHouse('${h.id}')">Даты и бронирование</button><button class="linkbtn" onclick="openHouse('${h.id}',true)">Подробнее и фото</button></div>
+      </div>
+    </div>`).join('');
+
+  const w=C.wholeRental;
+  $('#wholeRental').innerHTML=`<img src="img/${w.photo}" alt="" style="border-radius:10px;aspect-ratio:4/3;object-fit:cover"><div><h3>${esc(w.title)}</h3><p class="muted">${esc(w.text)}</p><p class="price">от <b>${fmt(w.priceFrom)}</b> ${esc(C.site.currency)} за ночь</p><a class="btn" target="_blank" rel="noopener" href="${waUrl('Здравствуйте! Интересует аренда всей территории GelaLand.')}">Запросить</a></div>`;
+
+  $('#serviceList').innerHTML=C.services.map(x=>'<div><span>'+esc(x.name)+'</span><span>'+esc(x.price)+'</span></div>').join('');
+  $('#aroundTitle').textContent=C.around.title;
+  $('#aroundList').innerHTML=C.around.items.map(x=>'<div class="card"><h3>'+esc(x.title)+'</h3><p class="muted" style="margin:0">'+esc(x.text)+'</p></div>').join('');
+  $('#fishTitle').textContent=C.fishing.title; $('#fishText').textContent=C.fishing.text;
+  $('#accTitle').textContent=C.accessibility.title; $('#accText').textContent=C.accessibility.text;
+  $('#reviewList').innerHTML=C.reviews.map(r=>`<div class="review"><div class="who"><div class="av">${esc((r.author||'?')[0])}</div><div><b>${esc(r.author)}</b><div class="src">${esc(r.source)}${r.date?' · '+esc(r.date):''}</div></div></div><p style="margin:0">${esc(r.text)}</p>${r.photo?'<img class="ph" src="img/'+esc(r.photo)+'" alt="" loading="lazy">':''}</div>`).join('');
+  $('#eventsTitle').textContent=C.events.title; $('#eventsText').textContent=C.events.text;
+}
+
+function slide(id,step){
+  const h=C.houses.find(x=>x.id===id), img=document.querySelector('#h-'+id+' .cover img');
+  let i=(+img.dataset.i+step+h.photos.length)%h.photos.length; img.dataset.i=i; img.src='img/'+h.photos[i];
+  document.querySelectorAll('#h-'+id+' .dots i').forEach((d,k)=>d.classList.toggle('on',k===i));
+}
+
+// ---- house modal with calendar ----
+let cur, sel={a:null,b:null}, view;
+function openHouse(id,info){
+  cur=C.houses.find(x=>x.id===id); sel={a:null,b:null}; view=new Date(); view.setDate(1);
+  $('#modalBody').innerHTML=`<h2 style="margin-right:40px">${esc(cur.name)}</h2>
+    <div class="meta muted" style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px"><span>👥 до ${cur.capacity} гостей</span><span>🛏 ${esc(cur.beds)}</span><span>🕛 заезд ${esc(C.site.checkIn)}, выезд ${esc(C.site.checkOut)}</span></div>
+    <div class="cols">
+      <div><p>${esc(cur.description)}</p><div class="amen">${(cur.amenities||[]).map(a=>'<span>'+esc(a)+'</span>').join('')}</div>
+        <div class="photos">${cur.photos.map((p,i)=>'<img src="img/'+p+'" alt="" loading="lazy" onclick="lbOpen(cur.photos.map(x=>\'img/\'+x),'+i+')">').join('')}</div></div>
+      <div><h3>Выберите даты</h3><div class="cal" id="cal"></div><div class="calc" id="calc"></div></div>
+    </div>`;
+  drawCal(); $('#modal').classList.add('open'); document.body.style.overflow='hidden';
+  if(info) $('#modalBody').scrollTop=0;
+}
+function closeModal(){ $('#modal').classList.remove('open'); document.body.style.overflow=''; }
+$('#modal').addEventListener('click',e=>{ if(e.target.id==='modal') closeModal(); });
+
+function drawCal(){
+  const y=view.getFullYear(), m=view.getMonth();
+  const first=new Date(y,m,1), off=(first.getDay()+6)%7, days=new Date(y,m+1,0).getDate();
+  const names=['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'];
+  let html=`<div class="head"><button onclick="mv(-1)">‹</button><b>${names[m]} ${y}</b><button onclick="mv(1)">›</button></div><div class="dow">${['пн','вт','ср','чт','пт','сб','вс'].map(x=>'<span>'+x+'</span>').join('')}</div><div class="days">`;
+  for(let i=0;i<off;i++) html+='<div class="d pad"></div>';
+  for(let d=1;d<=days;d++){
+    const ds=iso(new Date(y,m,d)); const cls=['d'];
+    const past=ds<today, busy=isBusy(cur,ds);
+    const dt=new Date(y,m,d); if((C.site.weekendNights||[5,6]).includes(dt.getDay())) cls.push('we');
+    if(past) cls.push('past'); else if(busy) cls.push('busy');
+    if(sel.a===ds||sel.b===ds) cls.push('sel'); else if(sel.a&&sel.b&&ds>sel.a&&ds<sel.b) cls.push('in');
+    html+=`<div class="${cls.join(' ')}" ${(past||busy)?'':`onclick="pick('${ds}')"`}>${d}<small>${past?'':fmt(nightPrice(cur,ds)/1000).replace(',','.')+'т'}</small></div>`;
+  }
+  html+='</div><div class="legend"><span><i style="background:#f6f2ea"></i>выходные</span><span><i style="background:#f3e9e4"></i>занято</span><span><i style="background:var(--green)"></i>ваш выбор</span></div>';
+  $('#cal').innerHTML=html; drawCalc();
+}
+function mv(k){ view.setMonth(view.getMonth()+k); drawCal(); }
+function pick(ds){
+  if(!sel.a||(sel.a&&sel.b)){ sel={a:ds,b:null}; }
+  else if(ds<=sel.a){ sel={a:ds,b:null}; }
+  else { // check no busy nights between
+    let d=new Date(sel.a+'T12:00:00'); let ok=true;
+    while(iso(d)<ds){ if(isBusy(cur,iso(d))){ok=false;break;} d.setDate(d.getDate()+1); }
+    if(!ok){ sel={a:ds,b:null}; } else sel.b=ds;
+  }
+  drawCal();
+}
+function drawCalc(){
+  const el=$('#calc');
+  if(!sel.a){ el.innerHTML='<span class="muted">Нажмите на дату заезда, затем на дату выезда. Цифра под числом - цена за ночь в тысячах.</span>'; return; }
+  if(!sel.b){ el.innerHTML='Заезд <b style="font-size:1rem">'+ru(sel.a)+'</b>. Теперь выберите дату выезда.'; return; }
+  let d=new Date(sel.a+'T12:00:00'), n=0, sum=0;
+  while(iso(d)<sel.b){ sum+=nightPrice(cur,iso(d)); n++; d.setDate(d.getDate()+1); }
+  const mn=C.site.minNights||1; if(n<mn){ el.innerHTML='Минимальный срок - '+mn+' ноч.'; return; }
+  const msg=`Здравствуйте! Хочу забронировать дом “${cur.name}” с ${ru(sel.a)} по ${ru(sel.b)} (${n} ${pl(n)}), ориентировочно ${fmt(sum)} ${C.site.currency}.`;
+  el.innerHTML=`${ru(sel.a)} - ${ru(sel.b)}, ${n} ${pl(n)}<br>Итого: <b>${fmt(sum)}</b> ${esc(C.site.currency)}<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><a class="btn wa" target="_blank" rel="noopener" href="${waUrl(msg)}">Забронировать в WhatsApp</a><a class="btn light" href="tel:${C.site.phone}">Позвонить</a></div><div class="muted" style="font-size:.8rem;margin-top:8px">Бронь подтверждает хозяйка в ответном сообщении.</div>`;
+}
+const ru=ds=>{const d=new Date(ds+'T12:00:00');return d.getDate()+' '+['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'][d.getMonth()]};
+const pl=n=>n%10===1&&n%100!==11?'ночь':(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20)?'ночи':'ночей');
+
+// lightbox
+function lbOpen(list,i){ LB=list; lbi=i; $('#lbImg').src=LB[lbi]; $('#lb').classList.add('open'); }
+function lbClose(){ $('#lb').classList.remove('open'); }
+function lbStep(k){ lbi=(lbi+k+LB.length)%LB.length; $('#lbImg').src=LB[lbi]; }
+$('#lb').addEventListener('click',e=>{ if(e.target.id==='lb') lbClose(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){lbClose();closeModal();} if($('#lb').classList.contains('open')){ if(e.key==='ArrowRight')lbStep(1); if(e.key==='ArrowLeft')lbStep(-1);} });
+
+Promise.all([fetch('data/content.json?v='+Date.now()).then(r=>r.json()), fetch('data/bookings.json?v='+Date.now()).then(r=>r.ok?r.json():{}).catch(()=>({}))])
+ .then(([c,b])=>{ C=c; B=b.houses||b||{}; render(); if(location.hash) location.href=location.hash; });
+</script>
+</body>
+</html>

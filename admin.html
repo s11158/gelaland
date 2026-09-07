@@ -156,7 +156,8 @@ function draw(){
   $('#services tbody').innerHTML=C.services.map((s,i)=>`<tr><td><input data-p="services.${i}.name" value="${esc(s.name)}"></td><td><input data-p="services.${i}.price" value="${esc(s.price)}" placeholder="500 руб / бесплатно / по запросу"></td><td><button class="btn sm red" onclick="C.services.splice(${i},1);draw()">×</button></td></tr>`).join('');
 
   $('#reviews').innerHTML=C.reviews.map((r,i)=>`<div class="card"><div class="row">${inp(`reviews.${i}.author`,'Имя гостя',r.author)}${inp(`reviews.${i}.source`,'Откуда (Яндекс, Суточно...)',r.source)}${inp(`reviews.${i}.date`,'Дата (например 2026-07)',r.date)}</div>${ta(`reviews.${i}.text`,'Текст отзыва',r.text)}
-    <div style="display:flex;gap:10px;align-items:center;margin-top:8px">${r.photo?`<img src="img/${r.photo}" style="height:60px;border-radius:6px">`:''}<button class="btn sm ghost" onclick="pickPhoto(n=>{C.reviews[${i}].photo=n;draw()})">${r.photo?'Заменить фото':'+ Фото к отзыву'}</button>${r.photo?`<button class="btn sm ghost" onclick="C.reviews[${i}].photo='';draw()">Убрать фото</button>`:''}<button class="btn sm red" onclick="C.reviews.splice(${i},1);draw()">Удалить отзыв</button></div></div>`).join('');
+    <div class="photos">${(r.photos||[]).map((p,k)=>`<div><img src="img/${p}"><b onclick="C.reviews[${i}].photos.splice(${k},1);draw()">×</b></div>`).join('')}</div>
+    <div style="display:flex;gap:10px;align-items:center;margin-top:8px"><button class="btn sm ghost" onclick="pickPhoto(n=>{(C.reviews[${i}].photos=C.reviews[${i}].photos||[]).push(n);draw()})">+ Фото к отзыву</button><button class="btn sm red" onclick="C.reviews.splice(${i},1);draw()">Удалить отзыв</button></div></div>`).join('');
 
   $('#texts').innerHTML=`${inp('site.tagline','Главный заголовок на первом экране',C.site.tagline)}${ta('site.intro','Текст под заголовком',C.site.intro)}
     ${inp('about.title','Заголовок “О месте”',C.about.title)}${ta('about.paragraphs','Текст “О месте” (каждый абзац с новой строки)',C.about.paragraphs.join('\n'))}
@@ -167,7 +168,7 @@ function draw(){
 
   const s=C.site;
   $('#site').innerHTML=`<div class="row">${inp('site.phone','Телефон (формат +7...)',s.phone)}${inp('site.whatsapp','WhatsApp (только цифры)',s.whatsapp)}${inp('site.telegram','Telegram (имя без @, можно пусто)',s.telegram)}${inp('site.instagram','Instagram ссылка',s.instagram)}${inp('site.email','Email',s.email)}${inp('site.checkIn','Заезд',s.checkIn)}${inp('site.checkOut','Выезд',s.checkOut)}${inp('site.minNights','Минимум ночей',s.minNights,'number')}</div>
-    ${inp('site.address','Адрес',s.address)}${inp('site.mapUrl','Ссылка на встраиваемую Яндекс-карту (Конструктор карт, вариант “iframe”, только адрес src)',s.mapUrl)}`;
+    ${inp('site.address','Адрес',s.address)}${ta('site.videoUrls','Видео на сайте: ссылки для встраивания (RuTube, VK Видео, YouTube), по одной на строку',(s.videoUrls||[]).join('\n'))}${inp('site.mapUrl','Ссылка на встраиваемую Яндекс-карту (Конструктор карт, вариант “iframe”, только адрес src)',s.mapUrl)}`;
 
   $('#raw').value=JSON.stringify(C,null,2);
 }

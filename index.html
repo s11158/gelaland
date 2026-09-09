@@ -224,8 +224,41 @@ nav a:hover{opacity:1}nav a:hover:after{transform:scaleX(1)}
 @media(max-width:900px){.events .grid{grid-template-columns:1fr}}
 .events img{border-radius:var(--r);aspect-ratio:5/4;object-fit:cover;width:100%}
 .events h2{margin:12px 0 18px}
-.video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:40px}
-.video-grid iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:var(--r-sm)}
+/* videos */
+.videos{background:var(--pine-2);color:#eef0ea}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:760px}
+.vid{position:relative;border-radius:var(--r);overflow:hidden;background:#000;box-shadow:0 40px 80px -40px rgba(0,0,0,.7)}
+.vid video{width:100%;aspect-ratio:9/16;object-fit:cover;display:block;background:#000}
+.vid figcaption{position:absolute;left:0;right:0;bottom:0;padding:34px 16px 14px;font-size:.85rem;background:linear-gradient(transparent,rgba(10,18,13,.85));pointer-events:none}
+.vid .play{position:absolute;inset:0;display:grid;place-items:center;border:0;background:rgba(10,18,13,.28);transition:background .3s,opacity .3s;cursor:pointer}
+.vid .play i{width:70px;height:70px;border-radius:50%;background:var(--honey);display:grid;place-items:center;box-shadow:0 12px 30px -8px rgba(0,0,0,.6);transition:transform .4s var(--ease)}
+.vid .play:hover i{transform:scale(1.09)}
+.vid .play svg{width:26px;height:26px;color:var(--pine);margin-left:4px}
+.vid.playing .play{opacity:0;pointer-events:none}
+.vid.playing figcaption{opacity:0}
+/* instagram */
+.insta{background:var(--paper)}
+.insta-head{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end;margin-bottom:28px}
+@media(max-width:700px){.insta-head{grid-template-columns:1fr}}
+.insta-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+@media(max-width:1000px){.insta-grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:560px){.insta-grid{grid-template-columns:repeat(3,1fr)}}
+.insta-grid a{position:relative;aspect-ratio:1;border-radius:var(--r-sm);overflow:hidden;display:block;background:var(--mist-2)}
+.insta-grid img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease),filter .4s}
+.insta-grid a:hover img{transform:scale(1.07);filter:brightness(.82)}
+.insta-grid a:after{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.8'%3E%3Crect x='2' y='2' width='20' height='20' rx='6'/%3E%3Ccircle cx='12' cy='12' r='4.2'/%3E%3Ccircle cx='17.6' cy='6.4' r='1.2' fill='white' stroke='none'/%3E%3C/svg%3E") center/26px no-repeat;opacity:0;transition:opacity .35s}
+.insta-grid a:hover:after{opacity:1}
+.insta-handle{font-family:var(--display);font-size:1.6rem;color:var(--pine)}
+/* floating whatsapp */
+.wa-fab{position:fixed;right:22px;bottom:22px;z-index:75;width:62px;height:62px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 14px 34px -8px rgba(37,211,102,.75);transition:transform .35s var(--ease),box-shadow .35s}
+.wa-fab svg{width:32px;height:32px;color:#fff}
+.wa-fab:hover{transform:scale(1.08);box-shadow:0 18px 42px -8px rgba(37,211,102,.9)}
+.wa-fab:before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #25d366;animation:ping 2.6s var(--ease) infinite}
+@keyframes ping{0%{transform:scale(1);opacity:.7}70%{transform:scale(1.6);opacity:0}100%{opacity:0}}
+.wa-fab span{position:absolute;right:74px;white-space:nowrap;background:var(--pine);color:#fff;padding:9px 14px;border-radius:10px;font-size:.85rem;font-weight:600;opacity:0;transform:translateX(8px);transition:opacity .3s,transform .3s;pointer-events:none}
+.wa-fab:hover span{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.wa-fab:before{animation:none}}
+@media(max-width:760px){.wa-fab{width:54px;height:54px;right:16px;bottom:84px}.wa-fab svg{width:28px;height:28px}.wa-fab span{display:none}}
 /* contacts */
 .contacts{background:var(--paper)}
 .contacts .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:center}
@@ -309,6 +342,7 @@ body.drawer-open .drawer{transform:none}body.drawer-open .drawer-bg{opacity:1;po
       <a href="#about">О месте</a>
       <a href="#houses">Дома и цены</a>
       <a href="#seasons">Фото</a>
+      <a href="#video">Видео</a>
       <a href="#around">Вокруг</a>
       <a href="#reviews">Отзывы</a>
       <a href="#contacts">Контакты</a>
@@ -450,7 +484,28 @@ body.drawer-open .drawer{transform:none}body.drawer-open .drawer-bg{opacity:1;po
       <div class="rv"><div class="eyebrow">Ретриты и события</div><h2 id="eventsTitle"></h2><p class="lead" id="eventsText"></p><div style="margin-top:26px"><a class="btn btn-honey" id="eventsWa" href="#" target="_blank" rel="noopener">Обсудить мероприятие</a></div></div>
       <img class="rv rv-d1" src="img/yt36.webp" alt="Зимняя площадка у Волги" loading="lazy">
     </div>
-    <div class="video-grid" id="videos"></div>
+  </div>
+</section>
+
+<section class="videos" id="video">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div><div class="eyebrow">Видео</div><h2 id="videosTitle"></h2><p class="lead" id="videosText"></p></div>
+    </div>
+    <div class="video-grid rv" id="videoList"></div>
+  </div>
+</section>
+
+<section class="insta" id="instagram">
+  <div class="wrap">
+    <div class="insta-head rv">
+      <div><div class="eyebrow">Instagram</div><h2 id="instaTitle"></h2><p class="lead" id="instaText"></p></div>
+      <a class="btn btn-pine" id="instaBtn" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="6"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>
+        <span id="instaHandle"></span>
+      </a>
+    </div>
+    <div class="insta-grid rv" id="instaGrid"></div>
   </div>
 </section>
 
@@ -474,6 +529,11 @@ body.drawer-open .drawer{transform:none}body.drawer-open .drawer-bg{opacity:1;po
 <footer><div class="wrap"><span>© <span id="year"></span> GelaLand, Ярославская область, Углич</span><span>Село Золоторучье, КП Заречный</span><a href="admin.html">Для владельца</a></div></footer>
 
 <div class="mcta"><a class="btn btn-honey" href="#houses">Выбрать даты и забронировать</a></div>
+
+<a class="wa-fab" id="waFab" href="#" target="_blank" rel="noopener" aria-label="Написать в WhatsApp">
+  <span>Написать в WhatsApp</span>
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.6 2 2.2 6.4 2.2 11.84c0 1.94.53 3.76 1.45 5.32L2 22l4.98-1.6a9.8 9.8 0 0 0 5.06 1.4h.01c5.43 0 9.84-4.4 9.84-9.84C21.89 6.4 17.48 2 12.04 2zm5.72 13.9c-.24.68-1.4 1.3-1.94 1.35-.5.05-.98.23-3.3-.7-2.78-1.12-4.54-3.98-4.68-4.17-.13-.19-1.12-1.5-1.12-2.86s.7-2.03.95-2.3c.25-.28.55-.35.73-.35l.52.01c.17 0 .4-.06.62.48.24.57.8 1.97.87 2.11.07.14.12.3.02.49-.1.19-.14.3-.28.47l-.42.48c-.14.14-.28.3-.12.58.16.28.71 1.17 1.53 1.9 1.05.93 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.17-.19.7-.81.88-1.09.19-.28.37-.23.63-.14.25.1 1.65.78 1.93.92.28.14.47.21.54.33.07.12.07.68-.17 1.35z"/></svg>
+</a>
 
 <div class="drawer-bg" id="drawerBg"></div>
 <aside class="drawer" id="drawer" aria-label="Даты и бронирование"><div class="inner"><button class="close" id="drawerClose" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button><div id="drawerBody"></div></div></aside>
@@ -507,8 +567,8 @@ function render(){
   document.title=s.name;
   $('#heroBg').style.backgroundImage='url(img/'+(s.heroPhoto||'yt1.webp')+')';
   $('#heroTitle').textContent=s.tagline; $('#heroText').textContent=s.intro;
-  const wa=waUrl('Здравствуйте! Хочу узнать про отдых в GelaLand.');
-  $('#heroWa').href=wa; $('#waLink').href=wa;
+  const wa=waUrl(s.waMessage||'Добрый день, пишу Вам с сайта можно ли узнать о бронировании');
+  $('#heroWa').href=wa; $('#waLink').href=wa; $('#waFab').href=wa;
   $('#wholeWa').href=waUrl('Здравствуйте! Интересует аренда всей территории GelaLand под мероприятие.');
   $('#eventsWa').href=waUrl('Здравствуйте! Хочу обсудить проведение ретрита или мероприятия в GelaLand.');
   ['#hdrPhone','#phoneLink'].forEach(i=>{$(i).href='tel:'+s.phone;}); $('#hdrPhone').textContent=phoneFmt(s.phone); $('#phoneLink').textContent=phoneFmt(s.phone);
@@ -577,8 +637,23 @@ function render(){
   $('#reviewList').innerHTML=C.reviews.map((r,i)=>{ const ph=(r.photos&&r.photos.length?r.photos:(r.photo?[r.photo]:[])); const list=ph.map(f=>'img/'+f); return `<div class="rev rv"><div class="who"><div class="av">${esc(initial(r.author))}</div><div><b>${esc(r.author)}</b><div class="src"><b>${esc(r.source)}</b>${r.date?' · '+esc(r.date):''}</div></div></div><div class="stars">★★★★★</div><q>${esc(r.text)}</q>${ph.length?`<div class="ph ${ph.length===1?'one':ph.length===2?'two':''}">${ph.map((f,k)=>`<img src="img/${f}" alt="" loading="lazy" onclick='lbOpen(${JSON.stringify(list)},${k})'>`).join('')}</div>`:''}</div>`; }).join('');
 
   $('#eventsTitle').textContent=C.events.title; $('#eventsText').textContent=C.events.text;
-  const vids=(C.site.videoUrls||[]).filter(Boolean);
-  $('#videos').innerHTML=vids.map(v=>`<iframe src="${esc(v)}" loading="lazy" allowfullscreen title="Видео GelaLand"></iframe>`).join('');
+  // videos
+  const V=C.videos||{items:[]};
+  $('#videosTitle').textContent=V.title||''; $('#videosText').textContent=V.text||'';
+  const vsec=document.getElementById('video');
+  if((V.items||[]).length){
+    $('#videoList').innerHTML=V.items.map((v,i)=>`<figure class="vid" id="vid-${i}"><video src="video/${esc(v.file)}" poster="img/${esc(v.poster)}" preload="none" playsinline controls></video><figcaption>${esc(v.caption||'')}</figcaption><button class="play" onclick="playVid(${i})" aria-label="Смотреть видео"><i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.2v13.6L19 12z"/></svg></i></button></figure>`).join('');
+  } else vsec.style.display='none';
+
+  // instagram
+  const I=C.instagram;
+  const isec=document.getElementById('instagram');
+  if(I&&(I.photos||[]).length){
+    $('#instaTitle').textContent=I.title||''; $('#instaText').textContent=I.text||'';
+    $('#instaBtn').href=I.url; $('#instaHandle').textContent=I.handle||'Instagram';
+    const list=I.photos.map(f=>'img/'+f);
+    $('#instaGrid').innerHTML=I.photos.map((f,i)=>`<a href="${esc(I.url)}" target="_blank" rel="noopener" aria-label="Открыть Instagram"><img src="img/${f}" alt="" loading="lazy"></a>`).join('');
+  } else isec.style.display='none';
 
   observe();
 }
@@ -643,6 +718,14 @@ function drawCalc(){
 }
 const ru=ds=>{const d=new Date(ds+'T12:00:00');return d.getDate()+' '+['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'][d.getMonth()]};
 const pl=n=>n%10===1&&n%100!==11?'ночь':(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20)?'ночи':'ночей');
+
+function playVid(i){
+  const f=document.getElementById('vid-'+i), v=f.querySelector('video');
+  document.querySelectorAll('.vid video').forEach(o=>{ if(o!==v){ o.pause(); o.closest('.vid').classList.remove('playing'); } });
+  f.classList.add('playing'); v.play();
+  v.onpause=()=>{ if(v.currentTime===0||v.ended) f.classList.remove('playing'); };
+  v.onended=()=>f.classList.remove('playing');
+}
 
 // lightbox
 function lbOpen(list,i){ LB=list; lbi=i; lbShow(); $('#lb').classList.add('open'); }

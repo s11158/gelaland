@@ -23,8 +23,8 @@
       "value": "4,8",
       "count": "более 150 отзывов на Яндексе и Авито"
     },
-    "videoUrls": [],
-    "heroPhoto": "yt1.webp"
+    "heroPhoto": "yt1.webp",
+    "waMessage": "Добрый день, пишу Вам с сайта можно ли узнать о бронировании"
   },
   "about": {
     "title": "На берегу Волги в Ярославской области",
@@ -603,6 +603,48 @@
         "url": "https://www.instagram.com/gela.land/",
         "color": "#c13584"
       }
+    ]
+  },
+  "videos": {
+    "title": "Как это выглядит вживую",
+    "text": "Два коротких видео с территории: берег, дома и наши животные.",
+    "items": [
+      {
+        "file": "gelaland1.mp4",
+        "poster": "gelaland1_poster.jpg",
+        "caption": "Прогулка по территории"
+      },
+      {
+        "file": "gelaland2.mp4",
+        "poster": "gelaland2_poster.jpg",
+        "caption": "Волга и берег"
+      }
+    ]
+  },
+  "instagram": {
+    "title": "Мы в Instagram",
+    "text": "Живая лента: сезоны, животные, гости и новые домики. Заходите и пишите в директ.",
+    "handle": "@gela.land",
+    "url": "https://www.instagram.com/gela.land/",
+    "photos": [
+      "insta1.jpg",
+      "insta2.jpg",
+      "insta3.jpg",
+      "insta4.jpg",
+      "insta5.jpg",
+      "insta6.jpg",
+      "insta7.jpg",
+      "insta8.jpg",
+      "insta9.jpg",
+      "insta10.jpg",
+      "insta11.jpg",
+      "insta12.jpg",
+      "insta13.jpg",
+      "ig1.jpg",
+      "ig2.jpg",
+      "ig10.jpg",
+      "ig11.jpg",
+      "ig12.jpg"
     ]
   }
 }

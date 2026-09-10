@@ -89,16 +89,16 @@
         "ytrev14.webp",
         "ytrev19.webp",
         "ytrev20.webp",
-        "sosna1.jpg",
-        "sosna2.jpg",
-        "sosna3.jpg",
-        "sosna4.jpg",
-        "sosna5.jpg",
-        "sosna6.jpg",
-        "sosna7.jpg",
-        "sosna8.jpg",
-        "sosna9.jpg",
-        "sosna10.jpg"
+        "sosna1.webp",
+        "sosna2.webp",
+        "sosna3.webp",
+        "sosna4.webp",
+        "sosna5.webp",
+        "sosna6.webp",
+        "sosna7.webp",
+        "sosna8.webp",
+        "sosna9.webp",
+        "sosna10.webp"
       ],
       "price": {
         "weekday": 13000,
@@ -136,8 +136,8 @@
         "yt29.webp",
         "yt44.webp",
         "ytrev13.webp",
-        "home1.jpg",
-        "home2.jpg"
+        "home1.webp",
+        "home2.webp"
       ],
       "price": {
         "weekday": 13000,
@@ -173,12 +173,12 @@
         "ytrev5.webp",
         "ytrev7.webp",
         "yt24.webp",
-        "chern1.jpg",
-        "chern2.jpg",
-        "chern3.jpg",
-        "chern4.jpg",
-        "chern5.jpg",
-        "chern6.jpg"
+        "chern1.webp",
+        "chern2.webp",
+        "chern3.webp",
+        "chern4.webp",
+        "chern5.webp",
+        "chern6.webp"
       ],
       "price": {
         "weekday": 5000,
@@ -222,12 +222,12 @@
         "ytrev6.webp",
         "ytrev8.webp",
         "ytrev24.webp",
-        "brus1.jpg",
-        "brus2.jpg",
-        "brus3.jpg",
-        "brus4.jpg",
-        "brus5.jpg",
-        "brus6.jpg"
+        "brus1.webp",
+        "brus2.webp",
+        "brus3.webp",
+        "brus4.webp",
+        "brus5.webp",
+        "brus6.webp"
       ],
       "price": {
         "weekday": 5000,
@@ -252,7 +252,7 @@
     "title": "Аренда всей территории",
     "text": "Если у вас корпоратив, праздник или любое другое мероприятие, мы рады предоставить нашу территорию полностью под закрытие: все дома, до 22 гостей. Скидка 15% на длительное размещение. Гости с палатками тоже приветствуются.",
     "priceFrom": 30000,
-    "photo": "all2.jpg"
+    "photo": "all2.webp"
   },
   "services": [
     {
@@ -341,9 +341,9 @@
       "stars": 5,
       "text": "Попали сюда случайно, а уезжать не хотелось. Приехали после ремонта, как сказала хозяйка. Очень красиво! Местечко - настоящая находка! Животные потрясающие: идут на контакт сами, разрешают себя гладить, очень забавные и фотогеничные. Природа как на картинке: зелень, цветы, чистейший воздух, матушка Волга течёт рядом. Атмосфера тёплая, уютная, почти домашняя. Отдыхали всей семьёй - довольны абсолютно все, от мала до велика. Обязательно приедем ещё и друзьям порекомендуем. Спасибо за такой уголок радости!",
       "photos": [
-        "rev_sofia1.jpg",
-        "rev_sofia2.jpg",
-        "rev_sofia3.jpg"
+        "rev_sofia1.webp",
+        "rev_sofia2.webp",
+        "rev_sofia3.webp"
       ]
     },
     {
@@ -353,9 +353,9 @@
       "stars": 5,
       "text": "Прекрасное место! Не первый раз приезжаем: гостеприимные хозяева, уютные домики, красота вокруг, милый добрейший пёс, красивый конь Колдуша гуляет по территории.",
       "photos": [
-        "rev_alena1.jpg",
-        "rev_alena2.jpg",
-        "rev_alena3.jpg"
+        "rev_alena1.webp",
+        "rev_alena2.webp",
+        "rev_alena3.webp"
       ]
     },
     {
@@ -373,7 +373,7 @@
       "stars": 5,
       "text": "Отдыхали компанией в новогодние праздники, всё очень понравилось, хозяева гостеприимные, красивое расположение дома на берегу Волги. На территории можно погулять, повидать животных.",
       "photos": [
-        "rev_kirill.jpg"
+        "rev_kirill.webp"
       ]
     },
     {
@@ -439,8 +439,8 @@
       "stars": 5,
       "text": "Потрясающее место, очень красиво и продумано.",
       "photos": [
-        "rev_evgeny1.jpg",
-        "rev_evgeny2.jpg"
+        "rev_evgeny1.webp",
+        "rev_evgeny2.webp"
       ]
     },
     {
@@ -450,9 +450,9 @@
       "stars": 5,
       "text": "Отличное место! Красиво и близко к городу.",
       "photos": [
-        "rev_lidia1.jpg",
-        "rev_lidia2.jpg",
-        "rev_lidia3.jpg"
+        "rev_lidia1.webp",
+        "rev_lidia2.webp",
+        "rev_lidia3.webp"
       ]
     },
     {
@@ -658,31 +658,31 @@
         "yt41.webp",
         "ytrev23.webp",
         "ytrev26.webp",
-        "ig12.jpg",
-        "ig6.jpg"
+        "ig12.webp",
+        "ig6.webp"
       ]
     },
     {
       "title": "Фотографии гостей",
       "photos": [
-        "rev_sofia1.jpg",
-        "rev_sofia2.jpg",
-        "rev_sofia3.jpg",
-        "rev_alena1.jpg",
-        "rev_alena2.jpg",
-        "rev_alena3.jpg",
-        "rev_kirill.jpg",
-        "rev_evgeny1.jpg",
-        "rev_evgeny2.jpg",
-        "rev_lidia1.jpg",
-        "rev_lidia2.jpg",
-        "rev_lidia3.jpg",
+        "rev_sofia1.webp",
+        "rev_sofia2.webp",
+        "rev_sofia3.webp",
+        "rev_alena1.webp",
+        "rev_alena2.webp",
+        "rev_alena3.webp",
+        "rev_kirill.webp",
+        "rev_evgeny1.webp",
+        "rev_evgeny2.webp",
+        "rev_lidia1.webp",
+        "rev_lidia2.webp",
+        "rev_lidia3.webp",
         "ytrev11.webp",
         "ytrev12.webp",
-        "ig1.jpg",
-        "ig2.jpg",
-        "ig10.jpg",
-        "ig11.jpg"
+        "ig1.webp",
+        "ig2.webp",
+        "ig10.webp",
+        "ig11.webp"
       ]
     }
   ],
@@ -768,7 +768,7 @@
     "items": [
       {
         "file": "gelaland1.mp4",
-        "poster": "gelaland1_poster.jpg",
+        "poster": "gelaland1_poster.webp",
         "caption": "Прогулка по территории"
       },
       {
@@ -784,24 +784,24 @@
     "handle": "@gela.land",
     "url": "https://www.instagram.com/gela.land/",
     "photos": [
-      "insta1.jpg",
-      "insta2.jpg",
-      "insta3.jpg",
-      "insta4.jpg",
-      "insta5.jpg",
-      "insta6.jpg",
-      "insta7.jpg",
-      "insta8.jpg",
-      "insta9.jpg",
-      "insta10.jpg",
-      "insta11.jpg",
+      "insta1.webp",
+      "insta2.webp",
+      "insta3.webp",
+      "insta4.webp",
+      "insta5.webp",
+      "insta6.webp",
+      "insta7.webp",
+      "insta8.webp",
+      "insta9.webp",
+      "insta10.webp",
+      "insta11.webp",
       "insta12.jpg",
       "insta13.jpg",
-      "ig1.jpg",
-      "ig2.jpg",
-      "ig10.jpg",
-      "ig11.jpg",
-      "ig12.jpg"
+      "ig1.webp",
+      "ig2.webp",
+      "ig10.webp",
+      "ig11.webp",
+      "ig12.webp"
     ]
   },
   "reviewsMeta": {

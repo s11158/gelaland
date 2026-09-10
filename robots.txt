@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+
+Sitemap: https://gelaland.ru/sitemap.xml
+Host: gelaland.ru

@@ -155,7 +155,9 @@ function draw(){
 
   $('#services tbody').innerHTML=C.services.map((s,i)=>`<tr><td><input data-p="services.${i}.name" value="${esc(s.name)}"></td><td><input data-p="services.${i}.price" value="${esc(s.price)}" placeholder="500 руб / бесплатно / по запросу"></td><td><button class="btn sm red" onclick="C.services.splice(${i},1);draw()">×</button></td></tr>`).join('');
 
-  $('#reviews').innerHTML=C.reviews.map((r,i)=>`<div class="card"><div class="row">${inp(`reviews.${i}.author`,'Имя гостя',r.author)}${inp(`reviews.${i}.source`,'Откуда (Яндекс, Суточно...)',r.source)}${inp(`reviews.${i}.date`,'Дата (например 2026-07)',r.date)}</div>${ta(`reviews.${i}.text`,'Текст отзыва',r.text)}
+  $('#reviews').innerHTML=C.reviews.map((r,i)=>`<div class="card" style="${r.hidden?'opacity:.62;border-style:dashed':''}"><div class="row">${inp(`reviews.${i}.author`,'Имя гостя',r.author)}${inp(`reviews.${i}.source`,'Откуда (Яндекс, Суточно...)',r.source)}${inp(`reviews.${i}.date`,'Дата (например 2026-07)',r.date)}
+    <div><label>Оценка</label><select data-p="reviews.${i}.stars">${[5,4,3,2,1].map(n=>`<option value="${n}" ${(+r.stars||5)===n?'selected':''}>${'★'.repeat(n)} ${n}</option>`).join('')}</select></div>
+    <div><label>Показывать на сайте</label><select data-p="reviews.${i}.hidden"><option value="false" ${!r.hidden?'selected':''}>Да</option><option value="true" ${r.hidden?'selected':''}>Нет, скрыт</option></select></div></div>${ta(`reviews.${i}.text`,'Текст отзыва',r.text)}
     <div class="photos">${(r.photos||[]).map((p,k)=>`<div><img src="img/${p}"><b onclick="C.reviews[${i}].photos.splice(${k},1);draw()">×</b></div>`).join('')}</div>
     <div style="display:flex;gap:10px;align-items:center;margin-top:8px"><button class="btn sm ghost" onclick="pickPhoto(n=>{(C.reviews[${i}].photos=C.reviews[${i}].photos||[]).push(n);draw()})">+ Фото к отзыву</button><button class="btn sm red" onclick="C.reviews.splice(${i},1);draw()">Удалить отзыв</button></div></div>`).join('');
 
@@ -207,7 +209,8 @@ function collect(){
     if(p.endsWith('.amenities')) v=v.split(',').map(x=>x.trim()).filter(Boolean);
     else if(p==='about.paragraphs') v=v.split('\n').map(x=>x.trim()).filter(Boolean);
     else if(p==='around.items') v=v.split('\n').map(x=>x.trim()).filter(Boolean).map(l=>{const [t,...r]=l.split('|');return {title:t.trim(),text:r.join('|').trim()}});
-    else if(p.endsWith('.active')) v=v==='true';
+    else if(p.endsWith('.active')||p.endsWith('.hidden')) v=v==='true';
+    else if(p.endsWith('.stars')) v=+v;
     else if(el.type==='number') v=v===''?'':+v;
     setPath(C,p,v);
   });

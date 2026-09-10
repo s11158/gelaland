@@ -475,6 +475,7 @@ body.drawer-open .drawer{transform:none}body.drawer-open .drawer-bg{opacity:1;po
       <div class="review-cta" id="reviewLinks"></div>
     </div>
     <div class="masonry" id="reviewList"></div>
+    <div id="reviewMore" style="display:flex;justify-content:center;margin-top:26px"></div>
   </div>
 </section>
 
@@ -634,7 +635,8 @@ function render(){
   $('#reviewsLead').textContent=C.platforms?.text||'';
   const links=(C.platforms?.items||[]).filter(p=>p.score).slice(0,3);
   $('#reviewLinks').innerHTML=links.map(p=>`<a class="btn btn-ghost light" href="${esc(p.url)}" target="_blank" rel="noopener" style="padding:11px 18px;font-size:.85rem">${esc(p.name)} · ${esc(p.score)}</a>`).join('');
-  $('#reviewList').innerHTML=C.reviews.map((r,i)=>{ const ph=(r.photos&&r.photos.length?r.photos:(r.photo?[r.photo]:[])); const list=ph.map(f=>'img/'+f); return `<div class="rev rv"><div class="who"><div class="av">${esc(initial(r.author))}</div><div><b>${esc(r.author)}</b><div class="src"><b>${esc(r.source)}</b>${r.date?' · '+esc(r.date):''}</div></div></div><div class="stars">★★★★★</div><q>${esc(r.text)}</q>${ph.length?`<div class="ph ${ph.length===1?'one':ph.length===2?'two':''}">${ph.map((f,k)=>`<img src="img/${f}" alt="" loading="lazy" onclick='lbOpen(${JSON.stringify(list)},${k})'>`).join('')}</div>`:''}</div>`; }).join('');
+  REV=C.reviews.filter(r=>!r.hidden);
+  drawReviews();
 
   $('#eventsTitle').textContent=C.events.title; $('#eventsText').textContent=C.events.text;
   // videos
@@ -718,6 +720,20 @@ function drawCalc(){
 }
 const ru=ds=>{const d=new Date(ds+'T12:00:00');return d.getDate()+' '+['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'][d.getMonth()]};
 const pl=n=>n%10===1&&n%100!==11?'ночь':(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20)?'ночи':'ночей');
+
+let REV=[], revShown=0;
+function drawReviews(more){
+  const step=(C.reviewsMeta&&C.reviewsMeta.visibleAtOnce)||9;
+  revShown=more?REV.length:Math.min(step,REV.length);
+  $('#reviewList').innerHTML=REV.slice(0,revShown).map(r=>{
+    const ph=(r.photos&&r.photos.length?r.photos:(r.photo?[r.photo]:[]));
+    const list=ph.map(f=>'img/'+f);
+    const n=Math.max(1,Math.min(5,+r.stars||5));
+    return `<div class="rev rv on"><div class="who"><div class="av">${esc(initial(r.author))}</div><div><b>${esc(r.author)}</b><div class="src"><b>${esc(r.source)}</b>${r.date?' · '+esc(r.date):''}</div></div></div><div class="stars" aria-label="Оценка ${n} из 5">${'★'.repeat(n)}<span style="opacity:.25">${'★'.repeat(5-n)}</span></div><q>${esc(r.text)}</q>${ph.length?`<div class="ph ${ph.length===1?'one':ph.length===2?'two':''}">${ph.map((f,k)=>`<img src="img/${f}" alt="" loading="lazy" onclick='lbOpen(${JSON.stringify(list)},${k})'>`).join('')}</div>`:''}</div>`;
+  }).join('');
+  const left=REV.length-revShown;
+  $('#reviewMore').innerHTML=left>0?`<button class="btn btn-pine" onclick="drawReviews(true)">Показать все отзывы, ещё ${left}</button>`:'';
+}
 
 function playVid(i){
   const f=document.getElementById('vid-'+i), v=f.querySelector('video');

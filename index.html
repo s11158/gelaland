@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GelaLand</title>
-<meta name="description" content="GelaLand: четыре бревенчатых дома на высоком берегу Волги в 10 минутах от Углича. Мини-ферма, рыбалка, камин, тишина. Цены по датам и свободные дни онлайн.">
+<title>GelaLand - дома на берегу Волги в Угличе</title>
+<meta name="description" content="Аренда домов на берегу Волги рядом с Угличем: четыре бревенчатых дома, мини-ферма, рыбалка, камин и терраса над рекой. Свободные даты видны онлайн, бронь по телефону и в WhatsApp.">
 <meta property="og:title" content="GelaLand. Дома на берегу Волги рядом с Угличем">
 <meta property="og:description" content="Бревенчатые дома с террасами над Волгой, мини-ферма, рыбалка. Цены и свободные даты онлайн.">
 <meta property="og:image" content="https://gelaland.ru/img/yt1.webp">
@@ -285,6 +285,16 @@ nav a:hover{opacity:1}nav a:hover:after{transform:scaleX(1)}
 .vid .play svg{width:26px;height:26px;color:var(--pine);margin-left:4px}
 .vid.playing .play{opacity:0;pointer-events:none}
 .vid.playing figcaption{opacity:0}
+/* faq */
+.faq{background:var(--mist)}
+.faq-list{max-width:860px;border-top:1px solid var(--line)}
+.faq-list details{border-bottom:1px solid var(--line)}
+.faq-list summary{list-style:none;cursor:pointer;padding:22px 48px 22px 0;position:relative;font-size:1.1rem;font-weight:600;transition:color .3s}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary:hover{color:var(--honey-2)}
+.faq-list summary:after{content:"";position:absolute;right:8px;top:50%;width:13px;height:13px;margin-top:-8px;border-right:2px solid var(--honey-2);border-bottom:2px solid var(--honey-2);transform:rotate(45deg);transition:transform .35s var(--ease)}
+.faq-list details[open] summary:after{transform:rotate(-135deg);margin-top:-3px}
+.faq-list .ans{padding:0 48px 24px 0;color:var(--ink-2);line-height:1.7;max-width:70ch}
 /* instagram */
 .insta{background:var(--paper)}
 .insta-head{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end;margin-bottom:28px}
@@ -546,6 +556,15 @@ body.drawer-open .drawer{transform:none}body.drawer-open .drawer-bg{opacity:1;po
   </div>
 </section>
 
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div><div class="eyebrow">Вопросы и ответы</div><h2 id="faqTitle"></h2><p class="lead">Если нужного вопроса здесь нет, напишите в WhatsApp или позвоните - ответим быстро.</p></div>
+    </div>
+    <div class="faq-list rv" id="faqList"></div>
+  </div>
+</section>
+
 <section class="insta" id="instagram">
   <div class="wrap">
     <div class="insta-head rv">
@@ -618,7 +637,7 @@ function render(){
   $('#housesLead').textContent=SHOW_PRICES
     ? `Цена за ночь зависит от дня недели и сезона. Откройте календарь дома: занятые дни уже отмечены, а сумма за выбранные даты считается сразу. Заезд ${s.checkIn}, выезд ${s.checkOut}.`
     : `Откройте календарь дома и отметьте даты: занятые дни видны сразу. Стоимость хозяйка назовёт в ответном сообщении - она зависит от дат, числа гостей и сезона. Заезд ${s.checkIn}, выезд ${s.checkOut}.`;
-  document.title=s.name;
+  // заголовок вкладки задан в <title> и важен для поиска, не перезаписываем
   $('#heroBg').style.backgroundImage='url(img/'+(s.heroPhoto||'yt1.webp')+')';
   $('#heroTitle').textContent=s.tagline; $('#heroText').textContent=s.intro;
   const wa=waUrl(s.waMessage||'Добрый день, пишу Вам с сайта можно ли узнать о бронировании');
@@ -702,6 +721,17 @@ function render(){
     $('#videoList').innerHTML=V.items.map((v,i)=>`<figure class="vid" id="vid-${i}"><video src="video/${esc(v.file)}" poster="img/${esc(v.poster)}" preload="none" playsinline controls></video><figcaption>${esc(v.caption||'')}</figcaption><button class="play" onclick="playVid(${i})" aria-label="Смотреть видео"><i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.2v13.6L19 12z"/></svg></i></button></figure>`).join('');
   } else vsec.style.display='none';
 
+  // faq
+  const F=C.faq, fsec=document.getElementById('faq');
+  if(F&&(F.items||[]).length){
+    $('#faqTitle').textContent=F.title||'Частые вопросы';
+    $('#faqList').innerHTML=F.items.map((x,i)=>`<details${i===0?' open':''}><summary>${esc(x.q)}</summary><div class="ans">${esc(x.a)}</div></details>`).join('');
+    const ld=document.createElement('script');
+    ld.type='application/ld+json';
+    ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"FAQPage","mainEntity":F.items.map(x=>({"@type":"Question","name":x.q,"acceptedAnswer":{"@type":"Answer","text":x.a}}))});
+    document.head.appendChild(ld);
+  } else fsec.style.display='none';
+
   // instagram
   const I=C.instagram;
   const isec=document.getElementById('instagram');
@@ -780,6 +810,7 @@ function drawCalc(){
   const note=SHOW_PRICES
     ? 'Бронь подтверждает хозяйка в ответном сообщении. Сумма ориентировочная, без дополнительных услуг.'
     : 'Стоимость зависит от дат, числа гостей и сезона. Напишите или позвоните - хозяйка назовёт цену и подтвердит бронь.';
+  if(window.__goalDatesPicked) window.__goalDatesPicked();
   el.innerHTML=`<div>${ru(sel.a)} - ${ru(sel.b)} · ${n} ${pl(n)}</div>${head}<div class="row"><a class="btn btn-honey" target="_blank" rel="noopener" href="${waUrl(msg)}">${SHOW_PRICES?'Забронировать в WhatsApp':'Запросить в WhatsApp'}</a><a class="btn btn-ghost" href="tel:${C.site.phone}">Позвонить</a></div><div class="note">${note}</div>`;
 }
 const ru=ds=>{const d=new Date(ds+'T12:00:00');return d.getDate()+' '+['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'][d.getMonth()]};
@@ -827,7 +858,83 @@ function observe(){
 document.addEventListener('mousedown',e=>{ const s=e.target.closest('.strip'); if(!s) return; let x=e.pageX, l=s.scrollLeft, moved=false; const mm=ev=>{ moved=true; s.scrollLeft=l-(ev.pageX-x); }; const up=()=>{ document.removeEventListener('mousemove',mm); document.removeEventListener('mouseup',up); if(moved){ s.addEventListener('click',ev=>ev.stopPropagation(),{capture:true,once:true}); } }; document.addEventListener('mousemove',mm); document.addEventListener('mouseup',up); });
 
 Promise.all([fetch('data/content.json?v='+Date.now()).then(r=>r.json()), fetch('data/bookings.json?v='+Date.now()).then(r=>r.ok?r.json():{}).catch(()=>({}))])
- .then(([c,b])=>{ C=c; B=b.houses||{}; render(); if(location.hash){ const t=document.querySelector(location.hash); if(t) setTimeout(()=>t.scrollIntoView(),50); } });
+ .then(([c,b])=>{ C=c; B=b.houses||{}; render(); initAnalytics(); if(location.hash){ const t=document.querySelector(location.hash); if(t) setTimeout(()=>t.scrollIntoView(),50); } });
+
+// ---- аналитика: Яндекс Метрика (вебвизор, тепловая карта, карта кликов), GA4, пиксели ----
+function goal(name,params){
+  try{ if(window.ym&&YM_ID) ym(YM_ID,'reachGoal',name,params); }catch(e){}
+  try{ if(window.gtag) gtag('event',name,params||{}); }catch(e){}
+  try{ if(window.VK&&VK.Goal) VK.Goal(name); }catch(e){}
+}
+let YM_ID=null;
+function initAnalytics(){
+  const a=(C.site&&C.site.analytics)||{};
+
+  if(a.yandexMetrica){
+    YM_ID=+a.yandexMetrica;
+    (function(m,e,t,r,i,k,c){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();
+      for(let j=0;j<e.scripts.length;j++){if(e.scripts[j].src===r)return;}
+      k=e.createElement(t),c=e.getElementsByTagName(t)[0],k.async=1,k.src=r,c.parentNode.insertBefore(k,c);
+    })(window,document,'script','https://mc.yandex.ru/metrika/tag.js','ym');
+    ym(YM_ID,'init',{ webvisor:true, clickmap:true, trackLinks:true, accurateTrackBounce:true, trackHash:true });
+    const ns=document.createElement('noscript');
+    ns.innerHTML='<div><img src="https://mc.yandex.ru/watch/'+YM_ID+'" style="position:absolute;left:-9999px" alt=""></div>';
+    document.body.appendChild(ns);
+  }
+
+  if(a.ga4){
+    const s=document.createElement('script'); s.async=true;
+    s.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(a.ga4);
+    document.head.appendChild(s);
+    window.dataLayer=window.dataLayer||[];
+    window.gtag=function(){dataLayer.push(arguments)};
+    gtag('js',new Date()); gtag('config',a.ga4);
+  }
+
+  if(a.topMailRu){
+    const id=a.topMailRu;
+    window._tmr=window._tmr||[];
+    _tmr.push({id:id,type:'pageView',start:(new Date()).getTime()});
+    const s=document.createElement('script'); s.async=true; s.src='https://top-fwz1.mail.ru/js/code.js';
+    document.head.appendChild(s);
+  }
+
+  if(a.vkPixel){
+    const s=document.createElement('script'); s.async=true; s.src='https://vk.com/js/api/openapi.js?169';
+    s.onload=()=>{ try{ VK.Retargeting.Init(a.vkPixel); VK.Retargeting.Hit(); }catch(e){} };
+    document.head.appendChild(s);
+  }
+
+  if(a.metaPixel){
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init',a.metaPixel); fbq('track','PageView');
+  }
+
+  // цели: что именно делают гости
+  document.addEventListener('click',e=>{
+    const link=e.target.closest('a');
+    if(link){
+      const h=link.getAttribute('href')||'';
+      if(h.includes('wa.me')) goal('whatsapp',{place:link.closest('#waFab')?'плавающая кнопка':(link.closest('.calc')?'календарь':'страница')});
+      else if(h.startsWith('tel:')) goal('phone');
+      else if(h.includes('instagram.com')) goal('instagram');
+      else if(h.includes('yandex.ru/maps')) goal('maps');
+    }
+    const b=e.target.closest('button');
+    if(b&&/Даты и брон/i.test(b.textContent)) goal('open_house');
+    if(b&&/Показать все отз/i.test(b.textContent)) goal('all_reviews');
+  },true);
+
+  // глубина просмотра
+  const seen={};
+  addEventListener('scroll',()=>{
+    const p=Math.round(scrollY/(document.body.scrollHeight-innerHeight)*100);
+    [25,50,75,100].forEach(k=>{ if(p>=k&&!seen[k]){ seen[k]=1; goal('scroll_'+k); } });
+  },{passive:true});
+}
+window.__goalDatesPicked=()=>goal('dates_picked');
 </script>
 </body>
 </html>

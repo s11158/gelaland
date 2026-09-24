@@ -78,6 +78,10 @@ details summary{cursor:pointer;font-weight:600;padding:6px 0}
 <h2>Контакты и настройки</h2>
 <div class="card" id="site"></div>
 
+<h2>Счётчики и статистика</h2>
+<p class="hint">Вставьте номера счётчиков, и статистика заработает сама. Яндекс Метрика показывает записи визитов, тепловую карту и карту кликов. Пустые поля просто не подключаются.</p>
+<div class="card" id="analytics"></div>
+
 <details class="card"><summary>Для продвинутых: весь контент как JSON</summary><textarea id="raw" style="min-height:300px;font-family:monospace;font-size:.8rem"></textarea><button class="btn sm ghost" style="margin-top:8px" onclick="try{C=JSON.parse($('#raw').value);draw();msg('JSON применён','ok')}catch(e){msg('Ошибка в JSON: '+e.message,'err')}">Применить JSON</button></details>
 </div>
 </div>
@@ -173,6 +177,15 @@ function draw(){
     <div><label>Показывать цены на сайте</label><select data-p="site.showPrices"><option value="false" ${!s.showPrices?'selected':''}>Нет, только "стоимость по запросу"</option><option value="true" ${s.showPrices?'selected':''}>Да, показывать цены и суммы</option></select></div></div>
     ${inp('site.address','Адрес',s.address)}${ta('site.videoUrls','Видео на сайте: ссылки для встраивания (RuTube, VK Видео, YouTube), по одной на строку',(s.videoUrls||[]).join('\n'))}${inp('site.mapUrl','Ссылка на встраиваемую Яндекс-карту (Конструктор карт, вариант “iframe”, только адрес src)',s.mapUrl)}`;
 
+  const an=(C.site.analytics=C.site.analytics||{});
+  $('#analytics').innerHTML=`<div class="row">
+    ${inp('site.analytics.yandexMetrica','Яндекс Метрика: номер счётчика',an.yandexMetrica,'text','например 98765432')}
+    ${inp('site.analytics.ga4','Google Analytics 4: идентификатор',an.ga4,'text','например G-XXXXXXXXXX')}
+    ${inp('site.analytics.topMailRu','Top.Mail.Ru: номер счётчика',an.topMailRu,'text','например 3456789')}
+    ${inp('site.analytics.vkPixel','Пиксель ВКонтакте',an.vkPixel,'text','например VK-RTRG-000000-XXXXX')}
+    ${inp('site.analytics.metaPixel','Пиксель Meta',an.metaPixel,'text','только цифры')}
+  </div>`;
+
   $('#raw').value=JSON.stringify(C,null,2);
 }
 function mvHouse(i,k){ const j=i+k; if(j<0||j>=C.houses.length) return; [C.houses[i],C.houses[j]]=[C.houses[j],C.houses[i]]; draw(); }
@@ -201,7 +214,7 @@ function dayClick(e,i,ds){
 }
 
 // collect form values into C
-function setPath(obj,path,val){ const p=path.split('.'); let o=obj; for(let i=0;i<p.length-1;i++){ o=o[p[i]]; } o[p[p.length-1]]=val; }
+function setPath(obj,path,val){ const p=path.split('.'); let o=obj; for(let i=0;i<p.length-1;i++){ if(o[p[i]]==null||typeof o[p[i]]!=='object') o[p[i]]={}; o=o[p[i]]; } o[p[p.length-1]]=val; }
 function collectSilent(){ try{ collect(); }catch(e){} }
 function collect(){
   if(!$('#app').innerHTML||!document.querySelector('[data-p]')) return;

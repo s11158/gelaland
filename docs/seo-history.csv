@@ -1,0 +1,2 @@
+date,status,page_kb,words,houses,reviews,photos,schema,robots,sitemap,broken,show_prices,problems
+2026-09-24,200,62,2078,4,28,123,1,1,1,3,0,"битые файлы: img/${f}, img/${p}, video/${esc(v.file)}"

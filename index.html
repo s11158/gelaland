@@ -23,7 +23,6 @@
   "url": "https://gelaland.ru/",
   "telephone": "+7 985 764-33-80",
   "image": ["https://gelaland.ru/img/yt1.webp", "https://gelaland.ru/img/yt3.webp", "https://gelaland.ru/img/yt23.webp"],
-  "priceRange": "5000-30000 RUB",
   "currenciesAccepted": "RUB",
   "checkinTime": "12:00",
   "checkoutTime": "14:00",
@@ -215,6 +214,9 @@ nav a:hover{opacity:1}nav a:hover:after{transform:scaleX(1)}
 .pricing .from small{font-family:var(--body);font-size:.85rem;color:var(--ink-3);display:block;margin-bottom:6px}
 .pricing .wk{font-size:.85rem;color:var(--ink-2);line-height:1.5;font-variant-numeric:tabular-nums}
 .pricing .wk b{color:var(--ink);font-weight:600}
+.pricing.no-price{grid-template-columns:1fr}
+.pricing .ask{font-family:var(--display);font-size:1.9rem;line-height:1.1;color:var(--pine)}
+.pricing .ask small{display:block;font-family:var(--body);font-size:.85rem;color:var(--ink-3);margin-top:6px}
 .house .actions{display:flex;gap:12px;flex-wrap:wrap}
 /* whole rental band */
 .band{background:var(--pine-2);color:#eef0ea;overflow:hidden}
@@ -459,7 +461,7 @@ body.drawer-open .drawer{transform:none}body.drawer-open .drawer-bg{opacity:1;po
       <div>
         <div class="eyebrow">Дома и цены</div>
         <h2>Четыре дома, каждый со своей террасой и видом</h2>
-        <p class="lead">Цена за ночь зависит от дня недели и сезона. Откройте календарь дома: занятые дни уже отмечены, а сумма за выбранные даты считается сразу. Заезд <span id="checkIn"></span>, выезд <span id="checkOut"></span>.</p>
+        <p class="lead" id="housesLead">Откройте календарь дома и отметьте даты: занятые дни видны сразу.</p>
       </div>
     </div>
     <div id="houseList"></div>
@@ -593,7 +595,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmt=n=>Number(n).toLocaleString('ru-RU');
 const ICO={arrowL:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 5-7 7 7 7"/></svg>',arrowR:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 5 7 7-7 7"/></svg>',people:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.2c3 0 5.5 2.4 5.5 5.3"/></svg>',bed:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 18v-7h18v7M3 11V6h8v5M7 8h2"/></svg>',clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'};
-let C,B={},LB=[],lbi=0;
+let C,B={},LB=[],lbi=0,SHOW_PRICES=false;
 const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const today=iso(new Date());
 const phoneFmt=p=>p.replace(/^\+7(\d{3})(\d{3})(\d{2})(\d{2})$/,'+7 $1 $2-$3-$4');
@@ -612,6 +614,10 @@ const initial=a=>{const m=(a||'?').trim().match(/\p{L}/u);return m?m[0].toUpperC
 
 function render(){
   const s=C.site;
+  SHOW_PRICES=s.showPrices===true;
+  $('#housesLead').textContent=SHOW_PRICES
+    ? `Цена за ночь зависит от дня недели и сезона. Откройте календарь дома: занятые дни уже отмечены, а сумма за выбранные даты считается сразу. Заезд ${s.checkIn}, выезд ${s.checkOut}.`
+    : `Откройте календарь дома и отметьте даты: занятые дни видны сразу. Стоимость хозяйка назовёт в ответном сообщении - она зависит от дат, числа гостей и сезона. Заезд ${s.checkIn}, выезд ${s.checkOut}.`;
   document.title=s.name;
   $('#heroBg').style.backgroundImage='url(img/'+(s.heroPhoto||'yt1.webp')+')';
   $('#heroTitle').textContent=s.tagline; $('#heroText').textContent=s.intro;
@@ -624,7 +630,7 @@ function render(){
   if(s.telegram){$('#tgLink').style.display='';$('#tgLink').href='https://t.me/'+s.telegram.replace('@','');}
   if(s.instagram) $('#igLink').href=s.instagram; else $('#igLink').style.display='none';
   if(s.mapUrl) $('#mapBox').innerHTML='<iframe src="'+esc(s.mapUrl)+'" loading="lazy" title="Карта"></iframe>'; else if(s.yandexMapsUrl) $('#mapLink').href=s.yandexMapsUrl;
-  ['#checkIn','#checkIn2'].forEach(i=>$(i).textContent=s.checkIn); ['#checkOut','#checkOut2'].forEach(i=>$(i).textContent=s.checkOut);
+  ['#checkIn','#checkIn2'].forEach(i=>{const e=$(i); if(e) e.textContent=s.checkIn;}); ['#checkOut','#checkOut2'].forEach(i=>{const e=$(i); if(e) e.textContent=s.checkOut;});
   $('#year').textContent=new Date().getFullYear();
 
   // score cards from platforms with scores
@@ -656,10 +662,12 @@ function render(){
         <div class="meta"><span>${ICO.people} до ${h.capacity} гостей</span><span>${ICO.bed} ${esc(h.beds)}</span></div>
         <p class="lead" style="font-size:1rem">${esc(h.short)}</p>
         <div class="amen">${(h.amenities||[]).map(a=>'<span>'+esc(a)+'</span>').join('')}</div>
-        <div class="pricing">
+        ${SHOW_PRICES?`<div class="pricing">
           <div class="from"><small>за ночь от</small>${fmt(minPrice(h))} <span style="font-size:1.1rem">${esc(C.site.currency)}</span></div>
           <div class="wk">будни <b>${fmt(h.price.weekday)}</b><br>пятница и суббота <b>${fmt(h.price.weekend||h.price.weekday)}</b>${(h.seasons||[]).filter(x=>x.from).map(x=>'<br>'+esc(x.name)+' <b>'+fmt(x.weekday)+'</b>').join('')}</div>
-        </div>
+        </div>`:`<div class="pricing no-price">
+          <div class="ask">Стоимость по запросу<small>зависит от дат, числа гостей и сезона</small></div>
+        </div>`}
         <div class="actions"><button class="btn btn-pine" onclick="openHouse('${h.id}')">Даты и бронирование ${ICO.arrowR}</button><button class="btn btn-ghost light" onclick="openHouse('${h.id}')">Подробнее и фото</button></div>
       </div>
     </article>`).join('');
@@ -667,7 +675,7 @@ function render(){
 
   const w=C.wholeRental;
   $('#wholeTitle').textContent=w.title; $('#wholeText').textContent=w.text;
-  $('#wholeFrom').innerHTML=`<small>вся территория, за ночь от</small>${fmt(w.priceFrom)} ${esc(C.site.currency)}`;
+  $('#wholeFrom').innerHTML=SHOW_PRICES?`<small>вся территория, за ночь от</small>${fmt(w.priceFrom)} ${esc(C.site.currency)}`:`<small>вся территория под закрытие</small><span style="font-size:1.5rem">Стоимость по запросу</span>`;
   if(w.photo) $('#wholePhoto').src='img/'+w.photo;
 
   // galleries
@@ -742,9 +750,9 @@ function drawCal(){
     if(seasonOf(cur,ds)) cls.push('season');
     if(past) cls.push('past'); else if(busy) cls.push('busy');
     if(sel.a===ds||sel.b===ds) cls.push('sel'); else if(sel.a&&sel.b&&ds>sel.a&&ds<sel.b) cls.push('in');
-    html+=`<div class="${cls.join(' ')}" ${(past||busy)?'':`onclick="pick('${ds}')"`}>${d}<small>${past?'':(nightPrice(cur,ds)/1000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' т'}</small></div>`;
+    html+=`<div class="${cls.join(' ')}" ${(past||busy)?'':`onclick="pick('${ds}')"`}>${d}${SHOW_PRICES?`<small>${past?'':(nightPrice(cur,ds)/1000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' т'}</small>`:''}</div>`;
   }
-  html+=`</div><div class="legend"><span><i style="background:var(--mist)"></i>пятница и суббота</span><span><i style="background:#fff;box-shadow:inset 0 -3px 0 var(--honey)"></i>сезонная цена</span><span><i style="background:#f1e6e2"></i>занято</span><span><i style="background:var(--pine)"></i>ваш выбор</span></div>`;
+  html+=`</div><div class="legend"><span><i style="background:var(--mist)"></i>выходные</span>${SHOW_PRICES?'<span><i style="background:#fff;box-shadow:inset 0 -3px 0 var(--honey)"></i>сезонная цена</span>':''}<span><i style="background:#f1e6e2"></i>занято</span><span><i style="background:var(--pine)"></i>ваш выбор</span></div>`;
   $('#cal').innerHTML=html; drawCalc();
 }
 function mv(k){ view.setMonth(view.getMonth()+k); drawCal(); }
@@ -756,14 +764,23 @@ function pick(ds){
 }
 function drawCalc(){
   const el=$('#calc'); el.classList.remove('ready');
-  if(!sel.a){ el.innerHTML='<b>Выберите даты</b><div class="note" style="margin-top:6px">Нажмите на день заезда, затем на день выезда. Цифра под числом - цена за ночь в тысячах.</div>'; return; }
+  const hint=SHOW_PRICES?'Нажмите на день заезда, затем на день выезда. Цифра под числом - цена за ночь в тысячах.':'Нажмите на день заезда, затем на день выезда. Занятые даты отмечены, выбрать их нельзя.';
+  if(!sel.a){ el.innerHTML='<b>Выберите даты</b><div class="note" style="margin-top:6px">'+hint+'</div>'; return; }
   if(!sel.b){ el.innerHTML='Заезд <b>'+ru(sel.a)+'</b>. Теперь выберите день выезда.'; return; }
   let d=new Date(sel.a+'T12:00:00'), n=0, sum=0;
   while(iso(d)<sel.b){ sum+=nightPrice(cur,iso(d)); n++; d.setDate(d.getDate()+1); }
   const mn=C.site.minNights||1; if(n<mn){ el.innerHTML='Минимальный срок проживания: '+mn+' '+pl(mn)+'.'; return; }
-  const msg=`Здравствуйте! Хочу забронировать дом “${cur.name}” с ${ru(sel.a)} по ${ru(sel.b)} (${n} ${pl(n)}), ориентировочно ${fmt(sum)} ${C.site.currency}.`;
+  const msg=SHOW_PRICES
+    ? `Здравствуйте! Хочу забронировать дом “${cur.name}” с ${ru(sel.a)} по ${ru(sel.b)} (${n} ${pl(n)}), ориентировочно ${fmt(sum)} ${C.site.currency}.`
+    : `Здравствуйте! Хочу забронировать дом “${cur.name}” с ${ru(sel.a)} по ${ru(sel.b)} (${n} ${pl(n)}). Подскажите, пожалуйста, свободно ли и сколько будет стоить.`;
   el.classList.add('ready');
-  el.innerHTML=`<div>${ru(sel.a)} - ${ru(sel.b)} · ${n} ${pl(n)}</div><div class="total">${fmt(sum)} <small>${esc(C.site.currency)}</small></div><div class="row"><a class="btn btn-honey" target="_blank" rel="noopener" href="${waUrl(msg)}">Забронировать в WhatsApp</a><a class="btn btn-ghost" href="tel:${C.site.phone}">Позвонить</a></div><div class="note">Бронь подтверждает хозяйка в ответном сообщении. Сумма ориентировочная, без дополнительных услуг.</div>`;
+  const head=SHOW_PRICES
+    ? `<div class="total">${fmt(sum)} <small>${esc(C.site.currency)}</small></div>`
+    : `<div class="total" style="font-size:1.5rem">Узнать стоимость</div>`;
+  const note=SHOW_PRICES
+    ? 'Бронь подтверждает хозяйка в ответном сообщении. Сумма ориентировочная, без дополнительных услуг.'
+    : 'Стоимость зависит от дат, числа гостей и сезона. Напишите или позвоните - хозяйка назовёт цену и подтвердит бронь.';
+  el.innerHTML=`<div>${ru(sel.a)} - ${ru(sel.b)} · ${n} ${pl(n)}</div>${head}<div class="row"><a class="btn btn-honey" target="_blank" rel="noopener" href="${waUrl(msg)}">${SHOW_PRICES?'Забронировать в WhatsApp':'Запросить в WhatsApp'}</a><a class="btn btn-ghost" href="tel:${C.site.phone}">Позвонить</a></div><div class="note">${note}</div>`;
 }
 const ru=ds=>{const d=new Date(ds+'T12:00:00');return d.getDate()+' '+['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'][d.getMonth()]};
 const pl=n=>n%10===1&&n%100!==11?'ночь':(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20)?'ночи':'ночей');

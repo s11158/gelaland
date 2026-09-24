@@ -169,7 +169,8 @@ function draw(){
     ${inp('events.title','Заголовок “Мероприятия”',C.events.title)}${ta('events.text','Текст про мероприятия',C.events.text)}`;
 
   const s=C.site;
-  $('#site').innerHTML=`<div class="row">${inp('site.phone','Телефон (формат +7...)',s.phone)}${inp('site.whatsapp','WhatsApp (только цифры)',s.whatsapp)}${inp('site.telegram','Telegram (имя без @, можно пусто)',s.telegram)}${inp('site.instagram','Instagram ссылка',s.instagram)}${inp('site.email','Email',s.email)}${inp('site.checkIn','Заезд',s.checkIn)}${inp('site.checkOut','Выезд',s.checkOut)}${inp('site.minNights','Минимум ночей',s.minNights,'number')}</div>
+  $('#site').innerHTML=`<div class="row">${inp('site.phone','Телефон (формат +7...)',s.phone)}${inp('site.whatsapp','WhatsApp (только цифры)',s.whatsapp)}${inp('site.telegram','Telegram (имя без @, можно пусто)',s.telegram)}${inp('site.instagram','Instagram ссылка',s.instagram)}${inp('site.email','Email',s.email)}${inp('site.checkIn','Заезд',s.checkIn)}${inp('site.checkOut','Выезд',s.checkOut)}${inp('site.minNights','Минимум ночей',s.minNights,'number')}
+    <div><label>Показывать цены на сайте</label><select data-p="site.showPrices"><option value="false" ${!s.showPrices?'selected':''}>Нет, только "стоимость по запросу"</option><option value="true" ${s.showPrices?'selected':''}>Да, показывать цены и суммы</option></select></div></div>
     ${inp('site.address','Адрес',s.address)}${ta('site.videoUrls','Видео на сайте: ссылки для встраивания (RuTube, VK Видео, YouTube), по одной на строку',(s.videoUrls||[]).join('\n'))}${inp('site.mapUrl','Ссылка на встраиваемую Яндекс-карту (Конструктор карт, вариант “iframe”, только адрес src)',s.mapUrl)}`;
 
   $('#raw').value=JSON.stringify(C,null,2);
@@ -209,7 +210,7 @@ function collect(){
     if(p.endsWith('.amenities')) v=v.split(',').map(x=>x.trim()).filter(Boolean);
     else if(p==='about.paragraphs') v=v.split('\n').map(x=>x.trim()).filter(Boolean);
     else if(p==='around.items') v=v.split('\n').map(x=>x.trim()).filter(Boolean).map(l=>{const [t,...r]=l.split('|');return {title:t.trim(),text:r.join('|').trim()}});
-    else if(p.endsWith('.active')||p.endsWith('.hidden')) v=v==='true';
+    else if(p.endsWith('.active')||p.endsWith('.hidden')||p.endsWith('.showPrices')) v=v==='true';
     else if(p.endsWith('.stars')) v=+v;
     else if(el.type==='number') v=v===''?'':+v;
     setPath(C,p,v);

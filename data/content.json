@@ -54,7 +54,23 @@
       "about11.webp",
       "about12.webp",
       "about13.webp",
-      "all1.webp"
+      "all1.webp",
+      "yt3.webp",
+      "yt8.webp",
+      "yt6.webp",
+      "yt11.webp",
+      "yt19.webp",
+      "yt22.webp",
+      "yt28.webp",
+      "yt34.webp",
+      "yt37.webp",
+      "yt40.webp",
+      "yt45.webp",
+      "yt47.webp",
+      "yt50.webp",
+      "yt10.webp",
+      "ytrev9.webp",
+      "ytrev15.webp"
     ]
   },
   "houses": [
@@ -778,7 +794,7 @@
       },
       {
         "file": "gelaland2.mp4",
-        "poster": "gelaland2_poster.jpg",
+        "poster": "gelaland2_poster.webp",
         "caption": "Волга и берег"
       }
     ]

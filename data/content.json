@@ -23,7 +23,7 @@
       "value": "4,8",
       "count": "более 150 отзывов на Яндексе и Авито"
     },
-    "heroPhoto": "yt1.webp",
+    "heroPhoto": "about1.webp",
     "waMessage": "Добрый день, пишу Вам с сайта можно ли узнать о бронировании",
     "showPrices": false,
     "analytics": {
@@ -42,22 +42,19 @@
       "На территории также есть собственная ферма, где живут барашки, козочка, конь и собачки."
     ],
     "gallery": [
-      "yt3.webp",
-      "yt8.webp",
-      "yt6.webp",
-      "yt11.webp",
-      "yt19.webp",
-      "yt22.webp",
-      "yt28.webp",
-      "yt34.webp",
-      "yt37.webp",
-      "yt40.webp",
-      "yt45.webp",
-      "yt47.webp",
-      "yt50.webp",
-      "yt10.webp",
-      "ytrev9.webp",
-      "ytrev15.webp"
+      "about2.webp",
+      "about3.webp",
+      "about4.webp",
+      "about5.webp",
+      "about6.webp",
+      "about7.webp",
+      "about8.webp",
+      "about9.webp",
+      "about10.webp",
+      "about11.webp",
+      "about12.webp",
+      "about13.webp",
+      "all1.webp"
     ]
   },
   "houses": [
@@ -83,6 +80,16 @@
         "Можно с питомцами"
       ],
       "photos": [
+        "sosna1.webp",
+        "sosna2.webp",
+        "sosna3.webp",
+        "sosna4.webp",
+        "sosna5.webp",
+        "sosna6.webp",
+        "sosna7.webp",
+        "sosna8.webp",
+        "sosna9.webp",
+        "sosna10.webp",
         "yt1.webp",
         "yt2.webp",
         "yt9.webp",
@@ -96,17 +103,7 @@
         "yt33.webp",
         "ytrev14.webp",
         "ytrev19.webp",
-        "ytrev20.webp",
-        "sosna1.webp",
-        "sosna2.webp",
-        "sosna3.webp",
-        "sosna4.webp",
-        "sosna5.webp",
-        "sosna6.webp",
-        "sosna7.webp",
-        "sosna8.webp",
-        "sosna9.webp",
-        "sosna10.webp"
+        "ytrev20.webp"
       ],
       "price": {
         "weekday": 13000,
@@ -141,11 +138,11 @@
         "Терраса"
       ],
       "photos": [
+        "home1.webp",
+        "home2.webp",
         "yt29.webp",
         "yt44.webp",
-        "ytrev13.webp",
-        "home1.webp",
-        "home2.webp"
+        "ytrev13.webp"
       ],
       "price": {
         "weekday": 13000,
@@ -175,18 +172,18 @@
         "Можно с питомцами"
       ],
       "photos": [
-        "ytrev1.webp",
-        "yt4.webp",
-        "ytrev3.webp",
-        "ytrev5.webp",
-        "ytrev7.webp",
-        "yt24.webp",
         "chern1.webp",
         "chern2.webp",
         "chern3.webp",
         "chern4.webp",
         "chern5.webp",
-        "chern6.webp"
+        "chern6.webp",
+        "ytrev1.webp",
+        "yt4.webp",
+        "ytrev3.webp",
+        "ytrev5.webp",
+        "ytrev7.webp",
+        "yt24.webp"
       ],
       "price": {
         "weekday": 5000,
@@ -224,18 +221,18 @@
         "Можно с питомцами"
       ],
       "photos": [
-        "ytrev2.webp",
-        "yt46.webp",
-        "ytrev4.webp",
-        "ytrev6.webp",
-        "ytrev8.webp",
-        "ytrev24.webp",
         "brus1.webp",
         "brus2.webp",
         "brus3.webp",
         "brus4.webp",
         "brus5.webp",
-        "brus6.webp"
+        "brus6.webp",
+        "ytrev2.webp",
+        "yt46.webp",
+        "ytrev4.webp",
+        "ytrev6.webp",
+        "ytrev8.webp",
+        "ytrev24.webp"
       ],
       "price": {
         "weekday": 5000,

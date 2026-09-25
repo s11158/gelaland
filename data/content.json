@@ -93,10 +93,14 @@
         "yt1.webp",
         "yt2.webp",
         "yt9.webp",
+        "yt15.webp",
         "yt23.webp",
         "yt43.webp",
         "yt39.webp",
         "yt49.webp",
+        "yt7.webp",
+        "yt13.webp",
+        "yt33.webp",
         "ytrev14.webp",
         "ytrev19.webp",
         "ytrev20.webp"
@@ -178,6 +182,7 @@
         "yt4.webp",
         "ytrev3.webp",
         "ytrev5.webp",
+        "ytrev7.webp",
         "yt24.webp"
       ],
       "price": {
@@ -225,6 +230,8 @@
         "ytrev2.webp",
         "yt46.webp",
         "ytrev4.webp",
+        "ytrev6.webp",
+        "ytrev8.webp",
         "ytrev24.webp"
       ],
       "price": {
@@ -631,20 +638,31 @@
         "yt16.webp",
         "yt24.webp",
         "yt29.webp",
+        "yt35.webp",
         "yt36.webp",
         "yt44.webp",
         "yt46.webp",
         "ytrev22.webp",
         "ytrev24.webp",
-        "ytrev25.webp"
+        "ytrev25.webp",
+        "yt32.webp",
+        "yt25.webp",
+        "yt48.webp"
       ]
     },
     {
       "title": "Наши животные",
       "photos": [
         "yt12.webp",
+        "yt30.webp",
         "yt42.webp",
+        "yt18.webp",
         "yt17.webp",
+        "yt5.webp",
+        "yt31.webp",
+        "yt41.webp",
+        "ytrev23.webp",
+        "ytrev26.webp",
         "ig12.webp",
         "ig6.webp"
       ]
@@ -665,6 +683,7 @@
         "rev_lidia2.webp",
         "rev_lidia3.webp",
         "ytrev11.webp",
+        "ytrev12.webp",
         "ig1.webp",
         "ig2.webp",
         "ig10.webp",

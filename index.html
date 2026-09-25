@@ -579,6 +579,15 @@ body.drawer-open .drawer{transform:none}body.drawer-open .drawer-bg{opacity:1;po
   </div>
 </section>
 
+<section class="around" id="route">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div><div class="eyebrow">Дорога</div><h2 id="routeTitle"></h2><p class="lead" id="routeLead"></p></div>
+    </div>
+    <div class="around-list" id="routeList" style="margin-top:0"></div>
+  </div>
+</section>
+
 <section class="contacts" id="contacts">
   <div class="wrap grid">
     <div class="rv">
@@ -704,6 +713,8 @@ function render(){
   $('#fishTitle').textContent=C.fishing.title; $('#fishText').textContent=C.fishing.text;
   $('#accTitle').textContent=C.accessibility.title; $('#accText').textContent=C.accessibility.text;
   $('#aroundList').innerHTML=C.around.items.map((x,i)=>`<div class="rv rv-d${i%3}"><h3>${esc(x.title)}</h3><p>${esc(x.text)}</p></div>`).join('');
+  if(C.route){ $('#routeTitle').textContent=C.route.title; $('#routeLead').textContent=C.route.lead;
+    $('#routeList').innerHTML=C.route.items.map((x,i)=>`<div class="rv rv-d${i%3}"><h3>${esc(x.title)}</h3><p>${esc(x.text)}</p></div>`).join(''); }
   $('#serviceList').innerHTML=C.services.map(x=>'<div><span>'+esc(x.name)+'</span><span>'+esc(x.price||'по запросу')+'</span></div>').join('');
 
   // reviews

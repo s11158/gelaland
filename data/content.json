@@ -107,16 +107,15 @@
         "sosna9.webp",
         "sosna10.webp",
         "yt1.webp",
-        "yt2.webp",
         "yt9.webp",
         "yt15.webp",
         "yt23.webp",
         "yt43.webp",
-        "yt39.webp",
+        "ytrev21.webp",
         "yt49.webp",
         "yt7.webp",
-        "yt13.webp",
-        "yt33.webp",
+        "rev_lidia1.webp",
+        "ytrev17.webp",
         "ytrev14.webp",
         "ytrev19.webp",
         "ytrev20.webp"
@@ -158,7 +157,7 @@
         "home2.webp",
         "yt29.webp",
         "yt44.webp",
-        "ytrev13.webp"
+        "yt1.webp"
       ],
       "price": {
         "weekday": 13000,
@@ -198,8 +197,7 @@
         "yt4.webp",
         "ytrev3.webp",
         "ytrev5.webp",
-        "ytrev7.webp",
-        "yt24.webp"
+        "ytrev7.webp"
       ],
       "price": {
         "weekday": 5000,
@@ -242,13 +240,13 @@
         "brus3.webp",
         "brus4.webp",
         "brus5.webp",
-        "brus6.webp",
+        "about6.webp",
         "ytrev2.webp",
         "yt46.webp",
         "ytrev4.webp",
         "ytrev6.webp",
         "ytrev8.webp",
-        "ytrev24.webp"
+        "chern1.webp"
       ],
       "price": {
         "weekday": 5000,
@@ -650,18 +648,17 @@
     {
       "title": "Зима: лёд на Волге, камин и тюбинг",
       "photos": [
-        "yt2.webp",
+        "sosna1.webp",
         "yt16.webp",
-        "yt24.webp",
+        "chern1.webp",
         "yt29.webp",
         "yt35.webp",
         "yt36.webp",
         "yt44.webp",
         "yt46.webp",
         "ytrev22.webp",
-        "ytrev24.webp",
         "ytrev25.webp",
-        "yt32.webp",
+        "rev_evgeny2.webp",
         "yt25.webp",
         "yt48.webp"
       ]
@@ -680,7 +677,7 @@
         "ytrev23.webp",
         "ytrev26.webp",
         "ig12.webp",
-        "ig6.webp"
+        "insta6.webp"
       ]
     },
     {
@@ -693,7 +690,7 @@
         "rev_alena2.webp",
         "rev_alena3.webp",
         "rev_kirill.webp",
-        "rev_evgeny1.webp",
+        "yt16.webp",
         "rev_evgeny2.webp",
         "rev_lidia1.webp",
         "rev_lidia2.webp",
@@ -805,24 +802,19 @@
     "handle": "@gela.land",
     "url": "https://www.instagram.com/gela.land/",
     "photos": [
-      "insta1.webp",
-      "insta2.webp",
+      "ig1.webp",
+      "ig2.webp",
       "insta3.webp",
       "insta4.webp",
       "insta5.webp",
       "insta6.webp",
-      "insta7.webp",
+      "ig7.webp",
       "insta8.webp",
       "insta9.webp",
-      "insta10.webp",
-      "insta11.webp",
-      "insta12.jpg",
-      "insta13.jpg",
-      "ig1.webp",
-      "ig2.webp",
       "ig10.webp",
       "ig11.webp",
-      "ig12.webp"
+      "ig12.webp",
+      "insta13.jpg"
     ]
   },
   "reviewsMeta": {

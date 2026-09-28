@@ -42,6 +42,11 @@
       "На территории также есть собственная ферма, где живут барашки, козочка, конь и собачки."
     ],
     "gallery": [
+      "house_facade.webp",
+      "pavilion_table.webp",
+      "bbq_river.webp",
+      "woodpile_grill.webp",
+      "woodpile_table.webp",
       "about2.webp",
       "about3.webp",
       "about4.webp",
@@ -663,6 +668,9 @@
     {
       "title": "Наши животные",
       "photos": [
+        "horse_close.webp",
+        "horse_grazing.webp",
+        "horse_pine.webp",
         "yt12.webp",
         "yt30.webp",
         "yt42.webp",
@@ -788,6 +796,11 @@
         "file": "gelaland2.mp4",
         "poster": "gelaland2_poster.webp",
         "caption": "Волга и берег"
+      },
+      {
+        "file": "gelaland3.mp4",
+        "poster": "gelaland3_poster.webp",
+        "caption": "Прогулка по территории, сентябрь 2026"
       }
     ]
   },

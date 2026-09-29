@@ -719,6 +719,13 @@
         "color": "#fc3f1d"
       },
       {
+        "name": "Google Карты",
+        "score": "5,0",
+        "note": "2 отзыва",
+        "url": "https://maps.google.com/?cid=7202626879583806297",
+        "color": "#4285f4"
+      },
+      {
         "name": "Яндекс Путешествия",
         "score": "4,8",
         "note": "56 отзывов",

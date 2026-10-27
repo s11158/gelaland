@@ -971,7 +971,7 @@ function observe(){
 document.addEventListener('mousedown',e=>{ const s=e.target.closest('.strip'); if(!s) return; let x=e.pageX, l=s.scrollLeft, moved=false; const mm=ev=>{ moved=true; s.scrollLeft=l-(ev.pageX-x); }; const up=()=>{ document.removeEventListener('mousemove',mm); document.removeEventListener('mouseup',up); if(moved){ s.addEventListener('click',ev=>ev.stopPropagation(),{capture:true,once:true}); } }; document.addEventListener('mousemove',mm); document.addEventListener('mouseup',up); });
 
 Promise.all([fetch('data/content.json?v='+Date.now()).then(r=>r.json()), fetch('data/bookings.json?v='+Date.now()).then(r=>r.ok?r.json():{}).catch(()=>({}))])
- .then(([c,b])=>{ C=c; B=b.houses||{}; render(); initAnalytics(); if(location.hash){ const t=document.querySelector(location.hash); if(t) setTimeout(()=>t.scrollIntoView(),50); } });
+ .then(([c,b])=>{ C=c; B=b.houses||{}; render(); initAnalytics(); if(location.hash){ const t=document.querySelector(location.hash); if(t){ const go=()=>t.scrollIntoView({behavior:'instant'}); setTimeout(go,50); if(document.readyState!=='complete') addEventListener('load',()=>setTimeout(go,50),{once:true}); } } });
 
 // ---- аналитика: Яндекс Метрика (вебвизор, тепловая карта, карта кликов), GA4, пиксели ----
 function goal(name,params){

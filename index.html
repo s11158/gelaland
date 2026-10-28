@@ -335,6 +335,8 @@ nav a:hover{opacity:1}nav a:hover:after{transform:scaleX(1)}
 .vid .play svg{width:26px;height:26px;color:var(--pine);margin-left:4px}
 .vid.playing .play{opacity:0;pointer-events:none}
 .vid.playing figcaption{opacity:0}
+.vid .snd{position:absolute;top:12px;right:12px;border:0;border-radius:999px;padding:7px 12px;font:600 .75rem var(--body);color:var(--pine);background:var(--honey);box-shadow:0 8px 20px -8px rgba(0,0,0,.6);cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s}
+.vid.auto .snd{opacity:1;pointer-events:auto}
 /* faq */
 .faq{background:var(--mist)}
 .faq-list{max-width:860px;border-top:1px solid var(--line)}
@@ -539,20 +541,6 @@ body.drawer-open .drawer{transform:none}body.drawer-open .drawer-bg{opacity:1;po
       <a class="btn btn-honey" id="wholeWa" href="#" target="_blank" rel="noopener">Запросить даты</a>
     </div>
     <img class="rv rv-d1" id="wholePhoto" src="img/yt28.webp" alt="Поляна и дома на закате" loading="lazy">
-  </div>
-  <div class="wrap sat-wrap" id="satWrap" style="display:none">
-    <div class="sat-head rv"><div class="eyebrow" id="satTitle"></div><p id="satHint"></p></div>
-    <div class="sat-box">
-      <div class="sat rv" id="sat">
-        <div class="sat-img"><img id="satImg" alt="GelaLand на снимке со спутника: дома, поляна, берег Волги и лес" loading="lazy"></div>
-        <span class="sat-water" id="satWater"></span>
-        <div id="satPts"></div>
-        <div class="sat-scale" id="satScale"><i></i><span></span></div>
-        <small class="sat-copy">Снимок © Яндекс Карты</small>
-      </div>
-      <div class="sat-card" id="satCard"><b></b><p></p></div>
-    </div>
-    <div class="sat-facts" id="satFacts"></div>
   </div>
 </section>
 
@@ -844,7 +832,6 @@ function render(){
   $('#wholeTitle').textContent=w.title; $('#wholeText').textContent=w.text;
   $('#wholeFrom').innerHTML=SHOW_PRICES?`<small>вся территория, за ночь от</small>${fmt(w.priceFrom)} ${esc(C.site.currency)}`:`<small>вся территория под закрытие</small><span style="font-size:1.5rem">Стоимость по запросу</span>`;
   if(w.photo) $('#wholePhoto').src='img/'+w.photo;
-  if(w.map) renderSat(w.map);
 
   // galleries
   $('#galleries').innerHTML=(C.galleries||[]).map((g,gi)=>{ const list=g.photos.map(f=>'img/'+f); return `<div class="strip-wrap rv"><div class="strip-head"><h3>${esc(g.title)}</h3><span class="eyebrow">${g.photos.length} фото</span></div><div class="strip">${g.photos.map((f,i)=>`<figure><img src="img/${f}" alt="" loading="lazy" onclick='lbOpen(${JSON.stringify(list)},${i})'></figure>`).join('')}</div></div>`; }).join('');
@@ -892,7 +879,8 @@ function render(){
   $('#videosTitle').textContent=V.title||''; $('#videosText').textContent=V.text||'';
   const vsec=document.getElementById('video');
   if((V.items||[]).length){
-    $('#videoList').innerHTML=V.items.map((v,i)=>`<figure class="vid" id="vid-${i}"><video src="video/${esc(v.file)}" poster="img/${esc(v.poster)}" preload="none" playsinline controls></video><figcaption>${esc(v.caption||'')}</figcaption><button class="play" onclick="playVid(${i})" aria-label="Смотреть видео"><i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.2v13.6L19 12z"/></svg></i></button></figure>`).join('');
+    $('#videoList').innerHTML=V.items.map((v,i)=>`<figure class="vid" id="vid-${i}"><video src="video/${esc(v.file)}" poster="img/${esc(v.poster)}" preload="none" playsinline controls></video><figcaption>${esc(v.caption||'')}</figcaption><button class="play" onclick="playVid(${i})" aria-label="Смотреть видео"><i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.2v13.6L19 12z"/></svg></i></button><button class="snd" onclick="unmuteVid(${i})">Включить звук</button></figure>`).join('');
+    autoVideos();
   } else vsec.style.display='none';
 
   // faq
@@ -1007,9 +995,23 @@ function drawReviews(more){
 function playVid(i){
   const f=document.getElementById('vid-'+i), v=f.querySelector('video');
   document.querySelectorAll('.vid video').forEach(o=>{ if(o!==v){ o.pause(); o.closest('.vid').classList.remove('playing'); } });
+  f.dataset.user=1; f.classList.remove('auto'); v.muted=false; v.loop=false;
   f.classList.add('playing'); v.play();
   v.onpause=()=>{ if(v.currentTime===0||v.ended) f.classList.remove('playing'); };
   v.onended=()=>f.classList.remove('playing');
+}
+// videos start silently when scrolled into view and pause when they leave; the guest can turn the sound on
+function autoVideos(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  const vio=new IntersectionObserver(es=>es.forEach(e=>{ const f=e.target, v=f.querySelector('video');
+    if(e.isIntersecting){ if(f.dataset.user) return; v.muted=true; v.loop=true; f.classList.add('playing','auto'); v.play().catch(()=>f.classList.remove('playing','auto')); }
+    else if(!v.paused){ v.pause(); } }),{threshold:.6});
+  document.querySelectorAll('.vid').forEach(f=>vio.observe(f));
+}
+function unmuteVid(i){
+  const f=document.getElementById('vid-'+i), v=f.querySelector('video');
+  document.querySelectorAll('.vid video').forEach(o=>{ if(o!==v) o.muted=true; });
+  f.dataset.user=1; f.classList.remove('auto'); v.muted=false; v.loop=false; v.play();
 }
 
 // lightbox
@@ -1034,21 +1036,6 @@ function observe(){
     const step=t=>{ const k=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-k,3); el.textContent=(v*e).toFixed(dec).replace('.',','); if(k<1) requestAnimationFrame(step); else el.textContent=el.dataset.n; }; requestAnimationFrame(step); };
   const cio=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ count(e.target); cio.unobserve(e.target);} }),{threshold:.6});
   document.querySelectorAll('[data-n]').forEach(el=>cio.observe(el));
-}
-// satellite map of the whole territory: points pop in, then a tour cycles through them until the guest clicks
-function renderSat(m){
-  $('#satWrap').style.display=''; $('#satTitle').textContent=m.title; $('#satHint').textContent=m.hint; $('#satImg').src='img/'+m.image;
-  if(m.water){ const wv=$('#satWater'); wv.textContent=m.water.label; wv.style.left=m.water.x+'%'; wv.style.top=m.water.y+'%'; }
-  $('#satScale i').style.width=m.scalePct+'%'; $('#satScale').style.width='100%'; $('#satScale').style.alignItems='flex-end';
-  $('#satScale span').textContent=m.scaleMeters+' м';
-  $('#satPts').innerHTML=m.points.map((p,i)=>`<button class="sat-pt" style="left:${p.x}%;top:${p.y}%;transition-delay:${(1.2+i*.25).toFixed(2)}s" data-i="${i}" aria-label="${esc(p.title)}"><span>${esc(p.title)}</span></button>`).join('');
-  $('#satFacts').innerHTML=m.facts.map(f=>`<div><b><span data-n="${esc(f.n)}">${esc(f.n)}</span>${f.unit?'<small>'+esc(f.unit)+'</small>':''}</b><p>${esc(f.label)}</p></div>`).join('');
-  const pts=[...document.querySelectorAll('.sat-pt')], card=$('#satCard'); let cur=-1, timer=null;
-  const show=i=>{ cur=i; pts.forEach((b,k)=>b.classList.toggle('act',k===i)); card.classList.remove('show');
-    setTimeout(()=>{ card.querySelector('b').textContent=m.points[i].title; card.querySelector('p').textContent=m.points[i].text; card.classList.add('show'); },150); };
-  pts.forEach((b,i)=>b.addEventListener('click',()=>{ clearInterval(timer); show(i); }));
-  const sio=new IntersectionObserver(es=>{ if(es[0].isIntersecting){ sio.disconnect(); setTimeout(()=>{ show(0); timer=setInterval(()=>show((cur+1)%pts.length),4200); },2400); } },{threshold:.4});
-  sio.observe($('#sat'));
 }
 // scroll progress and soft hero parallax
 const prog=document.createElement('div'); prog.id='prog'; document.body.appendChild(prog);

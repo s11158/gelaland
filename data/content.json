@@ -719,6 +719,13 @@
         "color": "#fc3f1d"
       },
       {
+        "name": "Авито",
+        "score": "4,9",
+        "note": "82 отзыва, на Авито с 2018 года",
+        "url": "https://www.avito.ru/brands/i141614221",
+        "color": "#00aaff"
+      },
+      {
         "name": "Google Карты",
         "score": "5,0",
         "note": "2 отзыва",
@@ -731,13 +738,6 @@
         "note": "57 отзывов",
         "url": "https://travel.yandex.ru/hotels/yaroslavl-oblast/gelaland/",
         "color": "#ffcc00"
-      },
-      {
-        "name": "Авито",
-        "score": "4,9",
-        "note": "82 отзыва, на Авито с 2018 года",
-        "url": "https://www.avito.ru/brands/i141614221",
-        "color": "#00aaff"
       },
       {
         "name": "Суточно.ру",

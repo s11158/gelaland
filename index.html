@@ -246,6 +246,36 @@ nav a:hover{opacity:1}nav a:hover:after{transform:scaleX(1)}
 .band h2{margin:12px 0 18px}
 .band .from{font-family:var(--display);font-size:2.4rem;color:var(--honey);margin:22px 0}
 .band .from small{font-family:var(--body);font-size:.85rem;color:rgba(255,255,255,.65);display:block}
+/* satellite map of the territory */
+.sat-wrap{margin-top:clamp(48px,7vw,96px)}
+.sat-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.sat-head p{margin:0;font-size:.9rem;color:rgba(255,255,255,.65)}
+.sat{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:1400/960;box-shadow:0 50px 90px -40px rgba(0,0,0,.8);background:#0d1a12}
+.sat-img{position:absolute;inset:0;overflow:hidden}
+.sat-img img{width:100%;height:100%;object-fit:cover;transform:scale(1.18);transform-origin:50% 60%;transition:transform 4s var(--ease)}
+.sat.on .sat-img img{transform:scale(1)}
+.sat:after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 62%,transparent 45%,rgba(13,26,18,.55) 100%)}
+.sat-water{position:absolute;transform:translate(-50%,-50%) rotate(-62deg);font-family:var(--display);font-size:clamp(1.4rem,4vw,3.2rem);letter-spacing:.35em;color:rgba(255,255,255,.35);pointer-events:none;z-index:1;white-space:nowrap}
+.sat-pt{position:absolute;z-index:2;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;border:0;padding:0;background:var(--honey);box-shadow:0 0 0 4px rgba(217,164,90,.35),0 6px 16px rgba(0,0,0,.5);cursor:pointer;opacity:0;transform:scale(0);transition:transform .6s cubic-bezier(.3,1.6,.5,1),opacity .4s}
+.sat.on .sat-pt{opacity:1;transform:scale(1)}
+.sat-pt:before{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--honey);animation:ping 2.4s infinite}
+.sat-pt span{position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);white-space:nowrap;font-size:.78rem;font-weight:600;color:#fff;background:rgba(19,36,25,.82);padding:5px 10px;border-radius:999px;pointer-events:none;transition:background .3s,color .3s}
+.sat-pt.act{background:#fff}.sat-pt.act span{background:var(--honey);color:var(--pine)}
+.sat-box{position:relative}
+.sat-card{position:absolute;z-index:3;left:16px;top:16px;max-width:min(340px,calc(100% - 32px));background:rgba(19,36,25,.88);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:14px 18px;opacity:0;transform:translateY(-8px);transition:opacity .4s,transform .4s var(--ease)}
+.sat-card.show{opacity:1;transform:none}
+.sat-card b{display:block;font-family:var(--display);font-size:1.25rem;color:var(--honey);margin-bottom:4px}
+.sat-card p{margin:0;font-size:.88rem;line-height:1.5;color:rgba(255,255,255,.85)}
+.sat-scale{position:absolute;z-index:2;right:16px;bottom:34px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.72rem;font-weight:600;color:#fff;text-shadow:0 1px 3px #000}
+.sat-scale i{display:block;height:6px;border:2px solid #fff;border-top:0;box-shadow:0 1px 3px rgba(0,0,0,.6)}
+.sat-copy{position:absolute;z-index:2;right:16px;bottom:10px;font-size:.66rem;color:rgba(255,255,255,.7);text-shadow:0 1px 2px #000}
+.sat-facts{display:grid;grid-template-columns:repeat(4,1fr);margin-top:26px;border-top:1px solid var(--line-dark)}
+.sat-facts div{padding:20px 16px 0 0}
+.sat-facts b{font-family:var(--display);font-size:clamp(2rem,4vw,3rem);color:var(--honey);line-height:1}
+.sat-facts b small{font-size:.5em;margin-left:4px}
+.sat-facts p{margin:6px 0 0;font-size:.85rem;color:rgba(255,255,255,.7)}
+@media(max-width:700px){.sat-wrap{width:100%;padding:0 12px}.sat-facts{grid-template-columns:1fr 1fr;row-gap:8px}.sat-pt{width:18px;height:18px;margin:-9px 0 0 -9px}.sat-pt span{display:none}.sat-pt.act span{display:block;font-size:.7rem;padding:4px 8px}
+  .sat-card{position:static;max-width:none;margin-top:10px;opacity:1;transform:none;background:rgba(255,255,255,.06)}.sat-scale{bottom:26px;right:10px}.sat-copy{right:10px;bottom:6px}}
 /* around */
 .around{background:var(--mist)}
 .tri{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line)}
@@ -509,6 +539,20 @@ body.drawer-open .drawer{transform:none}body.drawer-open .drawer-bg{opacity:1;po
       <a class="btn btn-honey" id="wholeWa" href="#" target="_blank" rel="noopener">Запросить даты</a>
     </div>
     <img class="rv rv-d1" id="wholePhoto" src="img/yt28.webp" alt="Поляна и дома на закате" loading="lazy">
+  </div>
+  <div class="wrap sat-wrap" id="satWrap" style="display:none">
+    <div class="sat-head rv"><div class="eyebrow" id="satTitle"></div><p id="satHint"></p></div>
+    <div class="sat-box">
+      <div class="sat rv" id="sat">
+        <div class="sat-img"><img id="satImg" alt="GelaLand на снимке со спутника: дома, поляна, берег Волги и лес" loading="lazy"></div>
+        <span class="sat-water" id="satWater"></span>
+        <div id="satPts"></div>
+        <div class="sat-scale" id="satScale"><i></i><span></span></div>
+        <small class="sat-copy">Снимок © Яндекс Карты</small>
+      </div>
+      <div class="sat-card" id="satCard"><b></b><p></p></div>
+    </div>
+    <div class="sat-facts" id="satFacts"></div>
   </div>
 </section>
 
@@ -800,6 +844,7 @@ function render(){
   $('#wholeTitle').textContent=w.title; $('#wholeText').textContent=w.text;
   $('#wholeFrom').innerHTML=SHOW_PRICES?`<small>вся территория, за ночь от</small>${fmt(w.priceFrom)} ${esc(C.site.currency)}`:`<small>вся территория под закрытие</small><span style="font-size:1.5rem">Стоимость по запросу</span>`;
   if(w.photo) $('#wholePhoto').src='img/'+w.photo;
+  if(w.map) renderSat(w.map);
 
   // galleries
   $('#galleries').innerHTML=(C.galleries||[]).map((g,gi)=>{ const list=g.photos.map(f=>'img/'+f); return `<div class="strip-wrap rv"><div class="strip-head"><h3>${esc(g.title)}</h3><span class="eyebrow">${g.photos.length} фото</span></div><div class="strip">${g.photos.map((f,i)=>`<figure><img src="img/${f}" alt="" loading="lazy" onclick='lbOpen(${JSON.stringify(list)},${i})'></figure>`).join('')}</div></div>`; }).join('');
@@ -985,9 +1030,25 @@ function observe(){
   // ratings count up when they come into view
   const still=matchMedia('(prefers-reduced-motion:reduce)').matches;
   const count=el=>{ const v=parseFloat(el.dataset.n.replace(',','.')); if(isNaN(v)||still) return; const t0=performance.now(), dur=1400;
-    const step=t=>{ const k=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-k,3); el.textContent=(v*e).toFixed(1).replace('.',','); if(k<1) requestAnimationFrame(step); else el.textContent=el.dataset.n; }; requestAnimationFrame(step); };
+    const dec=el.dataset.n.includes(',')?1:0;
+    const step=t=>{ const k=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-k,3); el.textContent=(v*e).toFixed(dec).replace('.',','); if(k<1) requestAnimationFrame(step); else el.textContent=el.dataset.n; }; requestAnimationFrame(step); };
   const cio=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ count(e.target); cio.unobserve(e.target);} }),{threshold:.6});
   document.querySelectorAll('[data-n]').forEach(el=>cio.observe(el));
+}
+// satellite map of the whole territory: points pop in, then a tour cycles through them until the guest clicks
+function renderSat(m){
+  $('#satWrap').style.display=''; $('#satTitle').textContent=m.title; $('#satHint').textContent=m.hint; $('#satImg').src='img/'+m.image;
+  if(m.water){ const wv=$('#satWater'); wv.textContent=m.water.label; wv.style.left=m.water.x+'%'; wv.style.top=m.water.y+'%'; }
+  $('#satScale i').style.width=m.scalePct+'%'; $('#satScale').style.width='100%'; $('#satScale').style.alignItems='flex-end';
+  $('#satScale span').textContent=m.scaleMeters+' м';
+  $('#satPts').innerHTML=m.points.map((p,i)=>`<button class="sat-pt" style="left:${p.x}%;top:${p.y}%;transition-delay:${(1.2+i*.25).toFixed(2)}s" data-i="${i}" aria-label="${esc(p.title)}"><span>${esc(p.title)}</span></button>`).join('');
+  $('#satFacts').innerHTML=m.facts.map(f=>`<div><b><span data-n="${esc(f.n)}">${esc(f.n)}</span>${f.unit?'<small>'+esc(f.unit)+'</small>':''}</b><p>${esc(f.label)}</p></div>`).join('');
+  const pts=[...document.querySelectorAll('.sat-pt')], card=$('#satCard'); let cur=-1, timer=null;
+  const show=i=>{ cur=i; pts.forEach((b,k)=>b.classList.toggle('act',k===i)); card.classList.remove('show');
+    setTimeout(()=>{ card.querySelector('b').textContent=m.points[i].title; card.querySelector('p').textContent=m.points[i].text; card.classList.add('show'); },150); };
+  pts.forEach((b,i)=>b.addEventListener('click',()=>{ clearInterval(timer); show(i); }));
+  const sio=new IntersectionObserver(es=>{ if(es[0].isIntersecting){ sio.disconnect(); setTimeout(()=>{ show(0); timer=setInterval(()=>show((cur+1)%pts.length),4200); },2400); } },{threshold:.4});
+  sio.observe($('#sat'));
 }
 // scroll progress and soft hero parallax
 const prog=document.createElement('div'); prog.id='prog'; document.body.appendChild(prog);

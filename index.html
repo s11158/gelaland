@@ -153,21 +153,33 @@ nav a:hover{opacity:1}nav a:hover:after{transform:scaleX(1)}
 .scroll-hint:after{content:"";width:1px;height:48px;background:linear-gradient(#fff,transparent);animation:drip 2.2s infinite}
 @keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 @media(max-width:900px){.scroll-hint{display:none}}
-/* platforms marquee */
+/* platforms grid */
 .plat{background:var(--pine);color:#fff;padding:0;border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark)}
-.plat .wrap{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:0}
-.plat .label{padding:22px 28px 22px 0;border-right:1px solid var(--line-dark);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--honey);white-space:nowrap}
-.marquee{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
-.track{display:flex;gap:12px;width:max-content;padding:16px 0;animation:mq 46s linear infinite}
-.marquee:hover .track{animation-play-state:paused}
-@keyframes mq{to{transform:translateX(-50%)}}
-.badge{display:inline-flex;align-items:center;gap:12px;padding:10px 18px 10px 12px;border:1px solid var(--line-dark);border-radius:999px;background:rgba(255,255,255,.04);transition:background .3s,border-color .3s;white-space:nowrap}
-.badge:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3)}
+.plat .wrap{padding:30px 0 34px}
+.plat .label{padding:0 0 18px;text-align:center;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--honey)}
+.plat-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.badge{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:12px;padding:10px 18px 10px 12px;border:1px solid var(--line-dark);border-radius:999px;background:rgba(255,255,255,.04);transition:background .3s,border-color .3s,transform .35s var(--ease),box-shadow .35s,opacity .7s var(--ease);white-space:nowrap}
+.badge:hover{background:rgba(255,255,255,.1);border-color:rgba(217,164,90,.6);transform:translateY(-3px);box-shadow:0 14px 30px -14px rgba(0,0,0,.6)}
+.badge:after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.16) 50%,transparent 65%);transform:translateX(-120%);animation:shine 11s var(--ease) infinite;animation-delay:var(--d,0s);pointer-events:none}
+@keyframes shine{0%{transform:translateX(-120%)}10%,100%{transform:translateX(120%)}}
+.badge.rv{transform:translateY(16px) scale(.96)}.badge.rv.on{transform:none}.badge.rv.on:hover{transform:translateY(-3px)}
+.badge em:before{content:"★ ";font-size:.8em}
+.badge i{transition:transform .5s var(--ease)}.badge:hover i{transform:rotate(-12deg) scale(1.1)}
+/* site-wide motion */
+#prog{position:fixed;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,var(--honey),#f3cf8e);transform:scaleX(0);transform-origin:left;z-index:100;pointer-events:none}
+.score-card{animation:float 6s ease-in-out infinite alternate}.score-card:nth-child(2){animation-delay:-3s}
+@keyframes float{from{translate:0 0}to{translate:0 -6px}}
+.btn-honey{position:relative;overflow:hidden}
+.btn-honey:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);transform:translateX(-120%);transition:transform .8s var(--ease);pointer-events:none}
+.btn-honey:hover:before{transform:translateX(120%)}
+.sec-head h2{position:relative}
+.sec-head.rv h2:after{content:"";display:block;width:56px;height:2px;margin-top:14px;background:var(--honey);transform:scaleX(0);transform-origin:left;transition:transform 1s var(--ease) .4s}
+.sec-head.rv.on h2:after{transform:scaleX(1)}
 .badge i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:700;font-size:.85rem;color:#fff}
 .badge b{font-weight:600;font-size:.92rem}
 .badge em{font-style:normal;font-family:var(--display);font-size:1.25rem;color:var(--honey);line-height:1}
 .badge small{opacity:.65;font-size:.75rem}
-@media(max-width:760px){.plat .wrap{grid-template-columns:1fr;width:100%}.plat .label{border:0;padding:16px 24px 0}}
+@media(max-width:760px){.plat .wrap{padding:24px 0 26px}.badge{padding:8px 14px 8px 8px;gap:9px}.badge small{display:none}}
 /* about */
 .about{background:var(--mist)}
 .about .grid{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,6vw,88px);align-items:center}
@@ -440,8 +452,8 @@ body.drawer-open .drawer{transform:none}body.drawer-open .drawer-bg{opacity:1;po
 
 <div class="plat">
   <div class="wrap">
-    <div class="label">Нас знают на площадках</div>
-    <div class="marquee"><div class="track" id="platTrack"></div></div>
+    <div class="label">Нас знают на площадках - нажмите, чтобы прочитать отзывы</div>
+    <div class="plat-grid" id="platTrack"></div>
   </div>
 </div>
 
@@ -745,10 +757,11 @@ function render(){
   const scored=(C.platforms?.items||[]).filter(p=>p.score).slice(0,2);
   $('#score').innerHTML=scored.map(p=>`<a class="score-card" href="${esc(p.url)}" target="_blank" rel="noopener"><b>${esc(p.score)}</b><div><span>${esc(p.name)}</span><small>${esc(p.note)}</small></div></a>`).join('');
 
-  // platforms marquee
-  const items=C.platforms?.items||[];
-  const badge=p=>`<a class="badge" href="${esc(p.url)}" target="_blank" rel="noopener"><i style="background:${esc(p.color||'#666')}">${esc(p.name[0])}</i><b>${esc(p.name)}</b>${p.score?'<em>'+esc(p.score)+'</em>':''}<small>${esc(p.note)}</small></a>`;
-  $('#platTrack').innerHTML=items.map(badge).join('')+items.map(badge).join('');
+  // platforms grid: scored first, staggered reveal and shine
+  const items=[...(C.platforms?.items||[])].sort((a,b)=>!!b.score-!!a.score);
+  const badge=(p,i)=>`<a class="badge rv" style="transition-delay:${(i*.06).toFixed(2)}s;--d:${(i*.9).toFixed(1)}s" href="${esc(p.url)}" target="_blank" rel="noopener"><i style="background:${esc(p.color||'#666')}">${esc(p.name[0])}</i><b>${esc(p.name)}</b>${p.score?'<em data-n="'+esc(p.score)+'">'+esc(p.score)+'</em>':''}<small>${esc(p.note)}</small></a>`;
+  $('#platTrack').innerHTML=items.map(badge).join('');
+  $('#score').querySelectorAll('b').forEach(b=>b.dataset.n=b.textContent);
 
   $('#aboutTitle').textContent=C.about.title;
   $('#aboutText').innerHTML=C.about.paragraphs.map(p=>'<p>'+esc(p)+'</p>').join('');
@@ -967,7 +980,18 @@ document.querySelectorAll('#nav a').forEach(a=>a.addEventListener('click',()=>{ 
 function observe(){
   const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target);} }),{rootMargin:'0px 0px -8% 0px',threshold:.08});
   document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+  // ratings count up when they come into view
+  const still=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const count=el=>{ const v=parseFloat(el.dataset.n.replace(',','.')); if(isNaN(v)||still) return; const t0=performance.now(), dur=1400;
+    const step=t=>{ const k=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-k,3); el.textContent=(v*e).toFixed(1).replace('.',','); if(k<1) requestAnimationFrame(step); else el.textContent=el.dataset.n; }; requestAnimationFrame(step); };
+  const cio=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ count(e.target); cio.unobserve(e.target);} }),{threshold:.6});
+  document.querySelectorAll('[data-n]').forEach(el=>cio.observe(el));
 }
+// scroll progress and soft hero parallax
+const prog=document.createElement('div'); prog.id='prog'; document.body.appendChild(prog);
+const heroBg=document.querySelector('.hero .bg'), calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+addEventListener('scroll',()=>{ const h=document.documentElement.scrollHeight-innerHeight; prog.style.transform=`scaleX(${h>0?scrollY/h:0})`;
+  if(heroBg&&!calm&&scrollY<innerHeight) heroBg.style.translate=`0 ${Math.round(scrollY*.3)}px`; },{passive:true});
 // drag-to-scroll for strips
 document.addEventListener('mousedown',e=>{ const s=e.target.closest('.strip'); if(!s) return; let x=e.pageX, l=s.scrollLeft, moved=false; const mm=ev=>{ moved=true; s.scrollLeft=l-(ev.pageX-x); }; const up=()=>{ document.removeEventListener('mousemove',mm); document.removeEventListener('mouseup',up); if(moved){ s.addEventListener('click',ev=>ev.stopPropagation(),{capture:true,once:true}); } }; document.addEventListener('mousemove',mm); document.addEventListener('mouseup',up); });
 

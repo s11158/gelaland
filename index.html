@@ -179,7 +179,9 @@ nav a:hover{opacity:1}nav a:hover:after{transform:scaleX(1)}
 .badge b{font-weight:600;font-size:.92rem}
 .badge em{font-style:normal;font-family:var(--display);font-size:1.25rem;color:var(--honey);line-height:1}
 .badge small{opacity:.65;font-size:.75rem}
-@media(max-width:760px){.plat .wrap{padding:24px 0 26px}.badge{padding:8px 14px 8px 8px;gap:9px}.badge small{display:none}}
+@media(max-width:760px){.plat .wrap{padding:24px 0 26px}.plat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .badge{white-space:normal;border-radius:14px;padding:8px 10px 8px 8px;gap:8px;line-height:1.15}.badge small{display:none}
+  .badge i{width:26px;height:26px;flex-shrink:0;font-size:.75rem}.badge b{font-size:.8rem}.badge em{font-size:1.05rem;margin-left:auto}.badge em:before{content:"★";font-size:.7em}}
 /* about */
 .about{background:var(--mist)}
 .about .grid{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,6vw,88px);align-items:center}

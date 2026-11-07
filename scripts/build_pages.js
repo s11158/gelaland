@@ -9,6 +9,10 @@ const PHONE = '+79857643380', PHONE_TXT = '+7 985 764-33-80';
 const WA = 'https://wa.me/79857643380?text=' + encodeURIComponent('Добрый день, пишу с сайта GelaLand, хочу узнать о бронировании');
 const YM = 113012269;
 
+const SITE_DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/content.json'), 'utf8')).site;
+const PROMO = SITE_DATA.promo && SITE_DATA.promo.active ? SITE_DATA.promo : null;
+// PROMO_STRIP: hidden by the inline script once the promo end date has passed, so a stale build never shows an expired offer
+const promoStrip = () => PROMO ? `<div class="promo-strip" data-until="${PROMO.until}"><div class="wrap"><b>${PROMO.badge}</b> <span>${PROMO.text}</span> <a href="https://wa.me/79857643380?text=${encodeURIComponent(PROMO.waMessage)}" target="_blank" rel="noopener">Забронировать</a></div></div><script>(function(){var e=document.currentScript.previousElementSibling;if(Date.now()>new Date(e.dataset.until+'T23:59:59+03:00').getTime())e.remove();})();</script>` : '';
 const { pages } = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/pages.json'), 'utf8'));
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const today = new Date().toISOString().slice(0, 10);
@@ -42,6 +46,7 @@ main p{margin:0 0 14px;max-width:70ch;color:var(--ink-2);font-size:1.05rem}
 .book h2{font-size:clamp(1.6rem,3vw,2.2rem);margin:0}
 .more{padding:10px 0 50px}.more h2{font-size:1.6rem;margin-bottom:14px}.more ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:10px}
 .more a{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:9px 16px;text-decoration:none;background:#fff;transition:border-color .3s}.more a:hover{border-color:var(--honey)}
+.promo-strip{background:var(--honey);color:var(--pine);font-size:.92rem;line-height:1.45}.promo-strip .wrap{padding:10px 0}.promo-strip b{font-weight:700}.promo-strip a{font-weight:700;white-space:nowrap}
 footer{background:var(--pine);color:rgba(238,240,234,.75);padding:30px 0;font-size:.9rem}footer a{color:#fff}
 .fab{position:fixed;right:18px;bottom:18px;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 10px 30px -8px rgba(0,0,0,.5);z-index:6}.fab svg{width:30px;height:30px;fill:#fff}`;
 
@@ -88,6 +93,7 @@ ${ld.map(o => `<script type="application/ld+json">${JSON.stringify(o)}</script>`
 </head>
 <body>
 <header><div class="wrap"><a class="brand" href="/">${logo}GelaLand</a><div class="hdr-cta"><a class="btn btn-ghost" href="tel:${PHONE}">${PHONE_TXT}</a><a class="btn btn-honey" href="/#houses">Выбрать даты</a></div></div></header>
+${promoStrip()}
 <div class="hero"><div class="wrap">
 <div class="crumbs"><a href="/">GelaLand</a> / ${esc(p.menu)}</div>
 <h1>${esc(p.h1)}</h1>

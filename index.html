@@ -138,6 +138,11 @@ nav a:hover{opacity:1}nav a:hover:after{transform:scaleX(1)}
 .hero .wrap{padding:150px 0 64px;display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:end}
 @media(max-width:900px){.hero .wrap{grid-template-columns:1fr;padding-top:130px;padding-bottom:96px}}
 .hero h1{font-size:clamp(3rem,7.4vw,6.4rem);line-height:.98;max-width:12ch;margin:14px 0 22px;animation:rise 1.1s var(--ease) .2s both}
+.promo{display:inline-flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:0 0 22px;padding:10px 12px 10px 10px;border-radius:18px;background:rgba(19,36,25,.72);border:1px solid rgba(217,164,90,.55);backdrop-filter:blur(6px);max-width:620px;color:#eef0ea;font-size:.92rem;line-height:1.45;animation:rise 1s var(--ease) .05s both}
+.promo b{background:var(--honey);color:var(--pine);border-radius:999px;padding:6px 14px;font-weight:700;white-space:nowrap}
+.promo span{flex:1 1 220px}.promo a{color:var(--honey);font-weight:600;white-space:nowrap}
+.promo-tag{display:inline-block;margin:6px 0 10px;background:var(--honey);color:var(--pine);border-radius:999px;padding:5px 12px;font-size:.8rem;font-weight:700}
+.uglich-more{margin-top:26px}
 .hero .eyebrow{animation:rise 1s var(--ease) .05s both;color:var(--honey)}
 .hero .lead{color:rgba(255,255,255,.86);max-width:48ch;animation:rise 1.1s var(--ease) .35s both}
 .hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px;animation:rise 1.1s var(--ease) .5s both}
@@ -472,6 +477,7 @@ body.drawer-open .drawer{transform:none}body.drawer-open .drawer-bg{opacity:1;po
   <div class="bg" id="heroBg"></div>
   <div class="wrap">
     <div>
+      <div class="promo" id="promo" hidden></div>
       <div class="eyebrow">Углич · Волга · с 2018 года</div>
       <h1 id="heroTitle">Дома на высоком берегу Волги</h1>
       <p class="lead" id="heroText"></p>
@@ -693,6 +699,7 @@ body.drawer-open .drawer{transform:none}body.drawer-open .drawer-bg{opacity:1;po
       <div><div class="eyebrow">Рядом</div><h2 id="uglichTitle"></h2><p class="lead" id="uglichLead"></p></div>
     </div>
     <div class="around-list" id="uglichList" style="margin-top:0"></div>
+    <div class="uglich-more rv"><a class="btn btn-pine" href="/uglich-na-vyhodnye/">Углич на выходные: где жить и что успеть</a></div>
   </div>
 </section>
 
@@ -731,7 +738,7 @@ body.drawer-open .drawer{transform:none}body.drawer-open .drawer-bg{opacity:1;po
   </div>
 </section>
 
-<footer><nav class="wrap foot-links" aria-label="Популярное"><a href="/dom-na-volge/">Дом на Волге посуточно</a><a href="/baza-otdyha-uglich/">База отдыха в Угличе</a><a href="/novyj-god/">Новый год на Волге</a><a href="/arenda-vsej-bazy/">Вся база под праздник</a><a href="/otdyh-s-detmi/">Отдых с детьми</a><a href="/rybalka-uglich/">Отдых с рыбалкой</a><a href="/kottedzh-uglich/">Коттедж в Угличе</a><a href="/otdyh-s-sobakoj/">Отдых с собакой</a><a href="/otdyh-zimoj/">Отдых зимой</a></nav><div class="wrap"><span>© <span id="year"></span> GelaLand, Ярославская область, Углич</span><span>Село Золоторучье, КП Заречный</span><a href="admin.html">Для владельца</a></div></footer>
+<footer><nav class="wrap foot-links" aria-label="Популярное"><a href="/dom-na-volge/">Дом на Волге посуточно</a><a href="/baza-otdyha-uglich/">База отдыха в Угличе</a><a href="/novyj-god/">Новый год на Волге</a><a href="/arenda-vsej-bazy/">Вся база под праздник</a><a href="/otdyh-s-detmi/">Отдых с детьми</a><a href="/rybalka-uglich/">Отдых с рыбалкой</a><a href="/kottedzh-uglich/">Коттедж в Угличе</a><a href="/otdyh-s-sobakoj/">Отдых с собакой</a><a href="/otdyh-zimoj/">Отдых зимой</a><a href="/uglich-na-vyhodnye/">Углич на выходные</a></nav><div class="wrap"><span>© <span id="year"></span> GelaLand, Ярославская область, Углич</span><span>Село Золоторучье, КП Заречный</span><a href="admin.html">Для владельца</a></div></footer>
 
 <div class="mcta"><a class="btn btn-honey" href="#houses">Выбрать даты и забронировать</a></div>
 
@@ -767,6 +774,7 @@ const isBusy=(h,ds)=>(h.closed||[]).includes(ds)||(B[h.id]||[]).includes(ds);
 const minPrice=h=>Math.min(+h.price.weekday,+h.price.weekend||1e12);
 const initial=a=>{const m=(a||'?').trim().match(/\p{L}/u);return m?m[0].toUpperCase():'?'};
 
+let PROMO=null;
 function render(){
   const s=C.site;
   SHOW_PRICES=s.showPrices===true;
@@ -775,6 +783,8 @@ function render(){
     : `Откройте календарь дома и отметьте даты: занятые дни видны сразу. Стоимость хозяйка назовёт в ответном сообщении - она зависит от дат, числа гостей и сезона. Заезд ${s.checkIn}, выезд ${s.checkOut}.`;
   // заголовок вкладки задан в <title> и важен для поиска, не перезаписываем
   $('#heroBg').style.backgroundImage='url(img/'+(s.heroPhoto||'yt1.webp')+')';
+  const P=s.promo; PROMO=!!(P&&P.active&&Date.now()<=new Date(P.until+'T23:59:59+03:00').getTime())?P:null;
+  if(PROMO){ const pe=$('#promo'); pe.innerHTML='<b>'+esc(PROMO.badge)+'</b><span>'+esc(PROMO.text)+'</span><a href="'+waUrl(PROMO.waMessage||s.waMessage)+'" target="_blank" rel="noopener">Забронировать</a>'; pe.hidden=false; }
   $('#heroTitle').textContent=s.tagline; $('#heroText').textContent=s.intro;
   const wa=waUrl(s.waMessage||'Добрый день, пишу Вам с сайта можно ли узнать о бронировании');
   $('#heroWa').href=wa; $('#waLink').href=wa; $('#waFab').href=wa;
@@ -816,6 +826,7 @@ function render(){
         <div class="eyebrow">${esc(h.type)}</div>
         <h3>${esc(h.name)}</h3>
         <div class="meta"><span>${ICO.people} до ${h.capacity} гостей</span><span>${ICO.bed} ${esc(h.beds)}</span></div>
+        ${PROMO?'<div class="promo-tag">'+esc(PROMO.badge)+' на заезды до 30.11</div>':''}
         <p class="lead" style="font-size:1rem">${esc(h.short)}</p>
         <div class="amen">${(h.amenities||[]).map(a=>'<span>'+esc(a)+'</span>').join('')}</div>
         ${SHOW_PRICES?`<div class="pricing">
@@ -919,7 +930,7 @@ let cur,sel={a:null,b:null},view;
 function openHouse(id){
   cur=C.houses.find(x=>x.id===id); sel={a:null,b:null}; view=new Date(); view.setDate(1);
   const list=cur.photos.map(p=>'img/'+p);
-  $('#drawerBody').innerHTML=`<div class="eyebrow">${esc(cur.type)}</div><h2>${esc(cur.name)}</h2>
+  $('#drawerBody').innerHTML=`<div class="eyebrow">${esc(cur.type)}</div><h2>${esc(cur.name)}</h2>${PROMO?'<div class="promo-tag">'+esc(PROMO.badge)+' на заезды до 30.11</div>':''}
     <div class="meta"><span>${ICO.people} до ${cur.capacity} гостей</span><span>${ICO.bed} ${esc(cur.beds)}</span><span>${ICO.clock} заезд ${esc(C.site.checkIn)}, выезд ${esc(C.site.checkOut)}</span></div>
     <div class="cols">
       <div><p class="desc">${esc(cur.description)}</p><div class="amen">${(cur.amenities||[]).map(a=>'<span>'+esc(a)+'</span>').join('')}</div>
